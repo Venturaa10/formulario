@@ -14,13 +14,19 @@ def cadastro(request):
     form = CadastroUser(request.POST) #Instanciando o objeto CadastroUser em uma variavel 
 
     if form.is_valid():
-        nome=form['nome_user'].value()
-
+        nome = form['nome_user'].value()
+        sobrenome = form['sobrenome_user'].value()
+        email = form['email_user'].value()
+        comentario = form['comentario_user'].value()
 
         cadastro_usuario = User.objects.create_user(
             username=nome,
+            email=email,
         )
         
-        cadastro_usuario.save() #Cadastrando o usuario
+        cadastro_usuario.save() #Cadastrando / Salvando o usuario no banco de dados
             
         return redirect('index')
+    
+def valida_nome(request):
+    pass
