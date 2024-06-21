@@ -1,1 +1,22 @@
-<h1>TESTE</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+</head>
+<body>
+    <h1>Formulario</h1>
+
+    <form action="{% url 'cadastro' %}" method="POST">
+        <!-- Chave de segurança -->
+        {% csrf_token %}
+
+        {% for field in form.visible_fields %}
+        <label style="margin-bottom: 20px;" for="{{ field.id_for_label}}">{{field.label}}</label>
+
+        {{ field }}
+        {% endfor %}
+    </form>
+</body>
+</html>
