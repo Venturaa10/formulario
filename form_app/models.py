@@ -1,4 +1,7 @@
+# Nesse arquivo é destinado a fazer modificações em admin
+
 from django.db import models
+from datetime import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
 # Create your models here.
 
@@ -12,7 +15,10 @@ class Cliente(models.Model):
     email = models.EmailField(max_length=50, null=False, blank=False)
     telefone = models.CharField(max_length=15, null=False, blank=False)
     comentario = models.TextField(max_length=500, null=False, blank=False)
-
+    # Atributo que exibe a data e a hora de criação do cliente
+    data_criacao = models.DateTimeField(default=datetime.now)
+    # Atributo responsavel por indicar se o cliente está ativo ou não
+    ativo = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.nome
+        return f'{self.nome} {self.sobrenome}'
