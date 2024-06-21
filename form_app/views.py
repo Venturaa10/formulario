@@ -21,6 +21,6 @@ def cadastro(request):
             username=nome,
         )
         
-        cadastro_usuario.save()
-        
-    return render(request,'index.html' ,{'form': form} )
+        cadastro_usuario.save() #Cadastrando o usuario
+            
+        return redirect('index')
