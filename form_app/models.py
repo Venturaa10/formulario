@@ -61,13 +61,15 @@ class Cliente(models.Model):
     ativo = models.BooleanField(default=True)
 
     def clean(self):
-        '''Metodo responsavél pela realização das validações dos atributos do model Cliente, recomendado para validações simples.'''
+        '''
+        Metodo responsavél pela realização das validações dos atributos do model Cliente, recomendado para validações simples.
+        raise é usado para lidar com exceções e erros de forma controlada
+        '''
         super().clean()
         if self.idade < 1 or self.idade > 100:
             raise ValidationError('Informe uma idade entre 1 e 100 anos de idade!')
         
         if self.estado == 'E':
-            # raise é usado para lidar com exceções e erros de forma controlada
             # Nesse caso, caso o valor do atributo seja igual a 'E', isso significa que o cliente não informou um estado, retornando uma mensagem de erro e solicitando que o cliente selecione um estado válido.
             raise ValidationError('Selecione um estado válido!')
 

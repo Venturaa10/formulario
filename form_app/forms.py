@@ -3,9 +3,15 @@ from django import forms
 from form_app.models import Cliente
 
 class ClienteForm(forms.ModelForm):
+    '''Este formulario é baseado no modelo "Cliente" '''
     class Meta:
-        model = Cliente
-        fields = ['nome', 'sobrenome', 'sexo', 'idade', 'email', 'estado',  'telefone', 'comentario','ativo']
+        model = Cliente # Este formulario está associada a esse Model
+        # Lista os campos do modelo a serem exibidos no formulario
+        fields = ['nome', 'sobrenome', 'sexo', 'idade', 'email', 'estado', 'telefone', 'comentario','ativo']
+        ''' widgets
+        -> Define como cada campo será renderizado / exibido no HTML
+        -> "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
+        '''
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Seu nome'}),
             'sobrenome': forms.TextInput(attrs={'placeholder': 'Seu sobrenome'}),
@@ -17,4 +23,3 @@ class ClienteForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'placeholder': 'Sugestões'}),
             'ativo': forms.CheckboxInput(),
         }
-

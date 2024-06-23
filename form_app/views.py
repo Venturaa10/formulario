@@ -6,7 +6,7 @@ from form_app.models import Cliente
 # Create your views here.
 
 def index(request):
-    '''Exibe a pagina de cadastro'''
+    '''Exibe a pagina de cadastro e os inputs a serem preenchidos pelo Cliente'''
     form = ClienteForm()
 
     return render(request,'index.html', {'form': form})
@@ -39,3 +39,9 @@ def cadastro(request):
         ) # Todos os parametros são para criar o cliente e armazenar suas informações de acordo com os valores recebidas no formulario no qual o cliente preencheu.
 
         return redirect('index')
+
+    else:
+        '''Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui'''
+        form = ClienteForm()
+
+    return render(request,'index.html', {'form': form})
