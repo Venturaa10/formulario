@@ -49,7 +49,7 @@ class Cliente(models.Model):
     sexo = models.CharField(max_length=1, choices=OPCAO_SEXO, default='I')
     # 'validators' adicionei parametros para exigir um valor minimo e maximo no campo idade em admin
     idade = models.IntegerField(
-        validators=[MinValueValidator(1),MaxValueValidator(105)],
+        validators=[MinValueValidator(1),MaxValueValidator(100)],
         null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     estado = models.CharField(max_length=2, choices=OPCAO_ESTADOS_BRASIL, null=False, blank=False, default='E')
@@ -61,7 +61,11 @@ class Cliente(models.Model):
     ativo = models.BooleanField(default=True)
 
     def clean(self):
+        '''Metodo responsavél pela realização das validações dos atributos do model Cliente, recomendado para validações simples.'''
         super().clean()
+        if self.idade < 1 or self.idade > 100:
+            raise ValidationError('Informe uma idade entre 1 e 100 anos de idade!')
+        
         if self.estado == 'E':
             # raise é usado para lidar com exceções e erros de forma controlada
             # Nesse caso, caso o valor do atributo seja igual a 'E', isso significa que o cliente não informou um estado, retornando uma mensagem de erro e solicitando que o cliente selecione um estado válido.
