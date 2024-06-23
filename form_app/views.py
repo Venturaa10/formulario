@@ -20,6 +20,7 @@ def cadastro(request):
         sexo_form = form['sexo'].value()
         idade_form = form['idade'].value()
         email_form = form['email'].value()
+        estado_form = form['estado'].value()
         telefone_form = form['telefone'].value()
         comentario_form = form['comentario'].value()
         ativo_form = form['ativo'].value()
@@ -31,6 +32,7 @@ def cadastro(request):
             sexo=sexo_form,
             idade=idade_form,
             email=email_form,
+            estado=estado_form,
             telefone=telefone_form,
             comentario=comentario_form,
             ativo=ativo_form,
