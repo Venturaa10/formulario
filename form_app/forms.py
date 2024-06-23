@@ -11,7 +11,7 @@ class ClienteForm(forms.ModelForm):
             'sobrenome': forms.TextInput(attrs={'placeholder': 'Seu sobrenome'}),
             'idade': forms.NumberInput(attrs={'placeholder': 'Sua idade'}),
             'email': forms.EmailInput(attrs={'placeholder': 'SeuEmail@caminho.com'}),
-            'telefone': forms.TextInput(),
+            'telefone': forms.TextInput(attrs={'placeholder': '(00) 11111-1111'}),
             'comentario': forms.Textarea(attrs={'placeholder': 'Sugestões'}),
             'ativo': forms.CheckboxInput(),
         }

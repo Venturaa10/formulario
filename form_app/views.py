@@ -15,7 +15,7 @@ def cadastro(request):
     form = ClienteForm(request.POST) #Instanciando o objeto CadastroUser em uma variavel 
 
     if form.is_valid():
-        nome_form = form['nome'].value()
+        nome_form = form['nome'].value() # Recebendo o valor de 'nome' (esse é o widgets do forms.py) fornecido pelo cliente no formulario (index.html) e armazenando na variavel 'nome_form'
         sobrenome_form = form['sobrenome'].value()
         idade_form = form['idade'].value()
         email_form = form['email'].value()
@@ -23,15 +23,15 @@ def cadastro(request):
         comentario_form = form['comentario'].value()
         ativo_form = form['ativo'].value()
 
-        cliente = Cliente.objects.create(
-            nome=nome_form,
+        Cliente.objects.create(
+            nome=nome_form, # Recebendo a variavel 'nome_form' e armazenando em 'nome' que é um dos atributos do model 'Cliente'
             sobrenome=sobrenome_form,
             idade=idade_form,
             email=email_form,
             telefone=telefone_form,
             comentario=comentario_form,
             ativo=ativo_form,
-        )
-        cliente.save() #Cadastrando / Salvando o usuario no banco de dados
+        ) # Todos os parametros são para criar o cliente e armazenar suas informações de acordo com os valores recebidas no formulario no qual o cliente preencheu.
+
             
         return redirect('index')
