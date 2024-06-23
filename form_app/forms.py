@@ -11,6 +11,7 @@ class ClienteForm(forms.ModelForm):
         ''' widgets
         -> Define como cada campo será renderizado / exibido no HTML
         -> "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
+        -> Parametro 'disabled': Faz com que não seja possivel alterar o status de "ativo" diretamente, ou seja, a alteração só pode ser feito no banco de dados
         '''
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Seu nome'}),
@@ -21,5 +22,5 @@ class ClienteForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder': 'SeuEmail@caminho.com'}),
             'telefone': forms.TextInput(attrs={'placeholder': '(00) 11111-1111'}),
             'comentario': forms.Textarea(attrs={'placeholder': 'Sugestões'}),
-            'ativo': forms.CheckboxInput(),
+            'ativo': forms.CheckboxInput(attrs={'disabled': 'disabled'}), 
         }
