@@ -8,7 +8,7 @@
 
     <style>
         #conteudo{
-            display: flex;
+            display: flexbox;
             align-items: center;
             
             border-style: solid;
@@ -18,15 +18,16 @@
         }
         
         #inputs {
-            width: 500px;
             font-size: 20px;
-            font-family: 'Times New Roman', Times, serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-weight: bold;    
         }
-        input[type='comentario'] {
-            width: 200px;
-            height: 200px;
-        } 
+
+        #titulo {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 25px;
+        }
+
         input[type='email']{
             width: 300px;
             height: 20px;
@@ -35,8 +36,9 @@
             width: 150px;
             height: 20px;
         }
+        
         input[type='number'] {
-            width: 100px;
+            width: 40px;
             height: 20px;
         }
 
@@ -49,18 +51,23 @@
             color: whitesmoke;
             border-radius: 20px;
             font-weight: bold;
-            height: 25px;
+            font-size: 15px;
+            
+            margin-top: 25px;
+            margin-bottom: 25px;
+            width: auto;
+            height: 20px;
         }
     </style>
 </head>
 
 <body>
     <div id="conteudo">
-        <h1>Formulario</h1>
     <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST"> 
         <!-- Chave de segurança -->
         {% csrf_token %}
+        <h3 id="titulo">CADASTRO CLIENTE</h3>
 
         <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
         {% for field in form.visible_fields %}
@@ -72,7 +79,7 @@
 
         <div>
             <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
-            <button id="botao" style="margin-top: 50px;" type="submit">Cadastrar</button>
+            <button id="botao"type="submit">CADASTRAR</button>
         </div>
     </form>
 </div>

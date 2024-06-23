@@ -9,7 +9,7 @@ class ClienteForm(forms.ModelForm):
         widgets = {
             'nome': forms.TextInput(attrs={'placeholder': 'Seu nome'}),
             'sobrenome': forms.TextInput(attrs={'placeholder': 'Seu sobrenome'}),
-            'idade': forms.NumberInput(attrs={'placeholder': 'Sua idade'}),
+            'idade': forms.NumberInput(),
             'email': forms.EmailInput(attrs={'placeholder': 'SeuEmail@caminho.com'}),
             'telefone': forms.TextInput(attrs={'placeholder': '(00) 11111-1111'}),
             'comentario': forms.Textarea(attrs={'placeholder': 'Sugestões'}),
