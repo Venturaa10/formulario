@@ -5,15 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
+
+    <style>
+        #formulario {
+            border-style: solid;
+            border-width: 15px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+
+    </style>
 </head>
 
 <body>
     <h1>Formulario</h1>
 
-    <form action="{% url 'cadastro' %}" method="POST">
+    <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
+    <form id="formulario" action="{% url 'cadastro' %}" method="POST"> 
         <!-- Chave de segurança -->
         {% csrf_token %}
 
+        <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
         {% for field in form.visible_fields %}
         <div>
             <label style="margin-bottom: 20px;" for="{{ field.id_for_label}}">{{field.label}}</label>
@@ -22,7 +35,8 @@
         {% endfor %}
 
         <div>
-            <button style="margin-top: 20px;" type="submit">Cadastrar</button>
+            <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
+            <button style="margin-top: 50px;" type="submit">Cadastrar</button>
         </div>
     </form>
 </body>

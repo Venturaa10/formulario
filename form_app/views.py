@@ -12,7 +12,7 @@ def index(request):
     return render(request,'index.html', {'form': form})
 
 def cadastro(request):
-    form = ClienteForm(request.POST) #Instanciando o objeto CadastroUser em uma variavel 
+    form = ClienteForm(request.POST) #Instanciando o objeto ClienteForm em uma variavel 
 
     if form.is_valid():
         nome_form = form['nome'].value() # Recebendo o valor de 'nome' (esse é o widgets do forms.py) fornecido pelo cliente no formulario (index.html) e armazenando na variavel 'nome_form'
