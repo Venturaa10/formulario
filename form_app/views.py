@@ -17,6 +17,7 @@ def cadastro(request):
     if form.is_valid():
         nome_form = form['nome'].value() # Recebendo o valor de 'nome' (esse é o widgets do forms.py) fornecido pelo cliente no formulario (index.html) e armazenando na variavel 'nome_form'
         sobrenome_form = form['sobrenome'].value()
+        sexo_form = form['sexo'].value()
         idade_form = form['idade'].value()
         email_form = form['email'].value()
         telefone_form = form['telefone'].value()
@@ -27,6 +28,7 @@ def cadastro(request):
         Cliente.objects.create(
             nome=nome_form, # Recebendo a variavel 'nome_form' e armazenando em 'nome' que é um dos atributos do model 'Cliente'
             sobrenome=sobrenome_form,
+            sexo=sexo_form,
             idade=idade_form,
             email=email_form,
             telefone=telefone_form,
