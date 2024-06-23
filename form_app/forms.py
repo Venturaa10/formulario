@@ -4,11 +4,6 @@ from form_app.models import Cliente
 
 class ClienteForm(forms.ModelForm):
     class Meta:
-        OPCAO_SEXO = [
-        ('I', 'Não Informado'),
-        ('M', 'Masculino'), 
-        ('F', 'Feminino'),
-    ]
         model = Cliente
         fields = ['nome', 'sobrenome', 'sexo', 'idade', 'email', 'telefone', 'comentario','ativo']
         widgets = {
