@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=django
 
 for_me.txt
+rascunho.txt
 
 ### Django ###
 *.log
