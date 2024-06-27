@@ -15,11 +15,10 @@
             border-color: cadetblue;
             border-style: solid;
 
-
         }
 
         #inputs {
-            color: aqua;
+            color: rgb(0, 0, 0);
 
             font-size: 20px;
             font-family: Arial, Helvetica, sans-serif;
@@ -108,9 +107,13 @@
                         {% elif field.name == 'email' %}
                         <div class="campo_grupo" id="email">
                             {{ field }}
+                            {% if erro_email %}
+                                <h5>{{erro_email}}</h5> <!-- Aqui deve ser exibido um mensagem de erro caso o usuario não informe um estado valido-->
+                            {% endif %}
                         </div>
                         {% elif field.name == 'telefone' %}
                         <div class="campo_grupo" id="telefone">
+                            <!-- Adicionar mensagem de validação da quantidade de digitos do telefone fornecido pelo usuario -->
                             {{ field }}
                         </div>
                         {% elif field.name == 'comentario' %}
@@ -137,6 +140,7 @@
             <button id="botao" type="submit">CADASTRAR</button>
 
             {% for message in messages %}
+            <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
             {% if message.tags == 'error' %}
             <div class="alert alert-danger" role="alert">
                 <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>

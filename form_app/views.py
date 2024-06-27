@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from form_app.models import Cliente
 from django.contrib import messages # Importando o modulo responsavél por retornar mensagens ao usuario
 
-# Create your views here.
 
 def index(request):
     '''Exibe a pagina de cadastro e os inputs a serem preenchidos pelo Cliente'''
@@ -15,7 +14,12 @@ def index(request):
 def cadastro(request):
     form = ClienteForm(request.POST) #Instanciando o objeto ClienteForm em uma variavel 
 
-    if form.is_valid():
+    if form.is_valid():            
+        if form['estado'].value() == 'E':
+            # Devo exibir uma mensagem informando que o erro é no campo do email
+            erro_email = messages.error(request, 'Informe um estado válido!')
+            return render(request,'index.html', {'erro_email': erro_email})
+        
         nome_form = form['nome'].value() # Recebendo o valor de 'nome' (esse é o widgets do forms.py) fornecido pelo cliente no formulario (index.html) e armazenando na variavel 'nome_form'
         sobrenome_form = form['sobrenome'].value()
         sexo_form = form['sexo'].value()
