@@ -7,10 +7,10 @@
     <title>Formulario</title>
 
     <style>
-        #conteudo{
+        #conteudo {
             display: flex;
             align-items: center;
-            text-align:left;
+            text-align: left;
 
             border-style: solid;
             border-width: 10px;
@@ -30,11 +30,18 @@
             font-size: 25px;
         }
 
-        input[type='email']{
+        input[type='email'] {
+
             width: 300px;
             height: 20px;
         }
-        input[type='text']{
+
+        input[type='text'] {
+            /* border-width: 5px;
+            border-radius: 10px;
+            border-style: solid;
+            border-color: aqua; */
+
             width: 150px;
             height: 20px;
         }
@@ -48,6 +55,7 @@
             width: 20px;
             height: 20px;
         }
+
         #botao {
             background-color: black;
             color: whitesmoke;
@@ -71,19 +79,33 @@
             {% csrf_token %}
             <h3 id="titulo">CADASTRO CLIENTE</h3>
 
-            <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
-            {% for field in form.visible_fields %}
             <div id="inputs">
-                <label id="label" for="{{ field.id_for_label }}">{{field.label}}</label>
-            </div>
-            {{ field }}
+                <!-- Linha abaixo é para iterar os valores do formulario um por um, estou chamando o campo de "nome" como exemplo  -->
+                <!-- <label for="{{ form.nome.id_for_label}}">
+                {{ form.nome }}
+            </label> -->
 
-            {% endfor %}
+                <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
+                {% for field in form.visible_fields %}
 
-            <div>
-                <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
-                <button id="botao" type="submit">CADASTRAR</button>
+
+                <div id="inputs">
+                    <label id="label" for="{{ field.id_for_label }}">{{field.label}}</label>
+                </div>
+                <div id="campo">
+                {{ field }}
             </div>
+                {% endfor %}
+                <div>
+                    <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
+                    <button id="botao" type="submit">CADASTRAR</button>
+                </div>
+
+                {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    <p style="color: rgb(255, 0, 0);">{{ message }}</p>
+                </div>
+                {% endfor %}
         </form>
     </div>
 </body>

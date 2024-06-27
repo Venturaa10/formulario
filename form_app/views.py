@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from form_app.forms import ClienteForm
 from django.contrib.auth.models import User
 from form_app.models import Cliente
+from django.contrib import messages # Importando o modulo responsavél por retornar mensagens ao usuario
 
 # Create your views here.
 
@@ -25,7 +26,7 @@ def cadastro(request):
         comentario_form = form['comentario'].value()
         ativo_form = form['ativo'].value()
 
-
+        
         Cliente.objects.create(
             nome=nome_form, # Recebendo a variavel 'nome_form' e armazenando em 'nome' que é um dos atributos do model 'Cliente'
             sobrenome=sobrenome_form,
@@ -38,6 +39,7 @@ def cadastro(request):
             ativo=ativo_form,
         ) # Todos os parametros são para criar o cliente e armazenar suas informações de acordo com os valores recebidas no formulario no qual o cliente preencheu.
 
+        messages.success(request, f'{nome_form} cadastrado(a) com sucesso!')
         return redirect('index')
 
     else:
