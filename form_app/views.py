@@ -25,7 +25,7 @@ def cadastro(request):
         telefone_form = form['telefone'].value()
         comentario_form = form['comentario'].value()
         ativo_form = form['ativo'].value()
-
+        
         
         Cliente.objects.create(
             nome=nome_form, # Recebendo a variavel 'nome_form' e armazenando em 'nome' que é um dos atributos do model 'Cliente'
@@ -42,8 +42,10 @@ def cadastro(request):
         messages.success(request, f'{nome_form} cadastrado(a) com sucesso!')
         return redirect('index')
 
+
     else:
         '''Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui'''
+        messages.error(request, 'Não foi possivel realizar o cadastrado!')
         form = ClienteForm()
 
     return render(request,'index.html', {'form': form})
