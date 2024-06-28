@@ -57,6 +57,15 @@
 <body>
     <!-- Inicio Container -->
     <div class="container-fluid">
+        <!-- {% if messages %}
+
+        {% for message in messages %}
+        <div>
+            <h4>{{ message }}</h4>
+        </div>
+        {% endfor %}
+
+    {% endif %} -->
         <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
             <!-- Chave de segurança -->
@@ -79,53 +88,7 @@
                         <div id="inputs">
                             <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
-
-                        <!-- CONDIÇÃO IF field.name = 'nome_do_campo' em forms 
-                        if o nome do campo do formulario for igual a "nome_do_campo" que eu quero.
-                        Alterei a forma de chamar os campos para estilizar individualmente os campos  
-                        -->
-                        {% if field.name == 'nome' %}
-                        <div class="campo_grupo" id="nome">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'sobrenome' %}
-                        <div class="campo_grupo" id="sobrenome">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'sexo' %}
-                        <div class="campo_grupo" id="sexo">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'idade' %}
-                        <div class="campo_grupo" id="idade">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'estado' %}
-                        <div class="campo_grupo" id="estado">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'email' %}
-                        <div class="campo_grupo" id="email">
-                            {{ field }}
-                            {% if erro_email %}
-                                <h5>{{erro_email}}</h5> <!-- Aqui deve ser exibido um mensagem de erro caso o usuario não informe um estado valido-->
-                            {% endif %}
-                        </div>
-                        {% elif field.name == 'telefone' %}
-                        <div class="campo_grupo" id="telefone">
-                            <!-- Adicionar mensagem de validação da quantidade de digitos do telefone fornecido pelo usuario -->
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'comentario' %}
-                        <div class="campo_grupo" id="comentario">
-                            {{ field }}
-                        </div>
-                        {% elif field.name == 'ativo' %}
-                        <div class="campo_grupo" id="ativo">
-                            {{ field }}
-                        </div>
-                        {% endif %}
-
+                        {{ field }}
                     </div>
                     <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
                     {% if forloop.counter0|divisibleby:3 and not forloop.first %}

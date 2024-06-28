@@ -24,3 +24,13 @@ class ClienteForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'placeholder': 'Sugestões'}),
             'ativo': forms.CheckboxInput(attrs={'disabled': 'disabled'}), 
         }
+
+
+        def clean_estado(self):
+            estado = self.cleaned_data.get('estado')
+
+            if estado == 'E':
+                raise forms.ValidationError('Selecione um estado válido!')
+            
+            else:
+                return estado

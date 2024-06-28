@@ -15,10 +15,6 @@ def cadastro(request):
     form = ClienteForm(request.POST) #Instanciando o objeto ClienteForm em uma variavel 
 
     if form.is_valid():            
-        if form['estado'].value() == 'E':
-            # Devo exibir uma mensagem informando que o erro é no campo do email
-            erro_email = messages.error(request, 'Informe um estado válido!')
-            return render(request,'index.html', {'erro_email': erro_email})
         
         nome_form = form['nome'].value() # Recebendo o valor de 'nome' (esse é o widgets do forms.py) fornecido pelo cliente no formulario (index.html) e armazenando na variavel 'nome_form'
         sobrenome_form = form['sobrenome'].value()
