@@ -25,12 +25,22 @@ class ClienteForm(forms.ModelForm):
             'ativo': forms.CheckboxInput(attrs={'disabled': 'disabled'}), 
         }
 
+        '''As validações abaixos estão funcionando, porém a mensagem não está sendo exibida no template'''
+    def clean_telefone(self):
+        telefone = self.cleaned_data.get('telefone')
 
-        def clean_estado(self):
-            estado = self.cleaned_data.get('estado')
+        if len(telefone) < 15:
+            raise forms.ValidationError('Número de telefone invalido, talvez esteja faltando digitos!')
 
-            if estado == 'E':
-                raise forms.ValidationError('Selecione um estado válido!')
+        else:
+            return telefone
             
-            else:
-                return estado
+                
+    def clean_estado(self):
+        estado = self.cleaned_data.get('estado')
+
+        if estado == 'E':
+            raise forms.ValidationError('Selecione um estado válido!')
+            
+        else:
+            return estado

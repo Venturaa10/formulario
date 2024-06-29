@@ -57,15 +57,6 @@
 <body>
     <!-- Inicio Container -->
     <div class="container-fluid">
-        <!-- {% if messages %}
-
-        {% for message in messages %}
-        <div>
-            <h4>{{ message }}</h4>
-        </div>
-        {% endfor %}
-
-    {% endif %} -->
         <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
             <!-- Chave de segurança -->
@@ -90,6 +81,12 @@
                         </div>
                         {{ field }}
                     </div>
+                    <!-- {% for error in field.errors %}
+                    <div>
+                        <h4>{{ error }}</h4>
+                    </div>
+
+                    {% endfor %} -->
                     <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
                     {% if forloop.counter0|divisibleby:3 and not forloop.first %}
                 </div>
