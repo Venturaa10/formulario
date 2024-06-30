@@ -57,7 +57,7 @@ class Cliente(models.Model):
     comentario = models.TextField(max_length=500, null=False, blank=False)
     # Atributo que exibe a data e a hora de criação do cliente
     data_criacao = models.DateTimeField(default=datetime.now)
-    # Atributo responsavel por indicar se o cliente está ativo ou não
+    # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
     ativo = models.BooleanField(default=True)
 
     def clean(self):

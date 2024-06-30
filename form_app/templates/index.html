@@ -80,13 +80,14 @@
                             <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
                         {{ field }}
+                        
                     </div>
                     <!-- {% for error in field.errors %}
                     <div>
                         <h4>{{ error }}</h4>
                     </div>
-
-                    {% endfor %} -->
+                    {% endfor %}                   
+                     -->
                     <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
                     {% if forloop.counter0|divisibleby:3 and not forloop.first %}
                 </div>
@@ -95,7 +96,6 @@
             </div>
             {% endif %}
             {% endfor %}
-
             <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
             <button id="botao" type="submit">CADASTRAR</button>
 
@@ -107,7 +107,7 @@
             </div>
             {% else %}
             <div class="alert alert-success" role="alert">
-                <p class="mensagens" style="color: rgb(0, 208, 255);">{{ message }}</p>
+                <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
             </div>
             {% endif %}
             {% endfor %}
