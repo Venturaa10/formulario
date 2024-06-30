@@ -53,8 +53,8 @@ class Cliente(models.Model):
         null=False, blank=False)
     email = models.EmailField(max_length=50, null=False, blank=False)
     estado = models.CharField(max_length=2, choices=OPCAO_ESTADOS_BRASIL, null=False, blank=False, default='E')
-    telefone = models.CharField(max_length=16, null=False, blank=False)
-    comentario = models.TextField(max_length=500, null=False, blank=False)
+    telefone = models.CharField(max_length=13, null=False, blank=False)
+    comentario = models.TextField(max_length=500)
     # Atributo que exibe a data e a hora de criação do cliente
     data_criacao = models.DateTimeField(default=datetime.now)
     # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".

@@ -12,6 +12,8 @@ def index(request):
     return render(request,'index.html', {'form': form})
 
 def cadastro(request):
+    form = ClienteForm()
+
     if request.method == 'POST':
         form = ClienteForm(request.POST)
         nome_form = form['nome'].value()
@@ -22,7 +24,7 @@ def cadastro(request):
             return redirect('index')
 
         else:
-            messages.error(request, f'Erro ao cadastrar {nome_form}!')
+            messages.error(request, f'Erro ao cadastrar {nome_form}, verifique as informações fornecidas!')
             print(form.errors) 
 
     else:

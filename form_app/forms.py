@@ -28,22 +28,29 @@ class ClienteForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'placeholder':'Sugestões', 'class':'form-control'}), 
         }
 
-        '''As validações abaixos estão funcionando, porém a mensagem não está sendo exibida no template'''
-    # def clean_telefone(self):
-    #     telefone = self.cleaned_data.get('telefone')
+    '''
+    Validações das informações recebidas no template do formulario feita através do metodo "clean"
+    '''
 
-    #     if len(telefone) < 15:
-    #         raise forms.ValidationError('Número de telefone invalido, talvez esteja faltando digitos!')
+    def clean_telefone(self):
+        telefone = self.cleaned_data.get('telefone')
 
-    #     else:
-    #         return telefone
+        for digito in telefone:
+            # Para cada digito do número, se esse não for um número inteiro, retorna a mensagem de erro
+            if not digito.isdigit():
+                raise forms.ValidationError('O número de telefone deve ser compostor somente por números inteiros!')
             
+        if len(telefone) < 11 or len(telefone) >= 13 :
+            raise forms.ValidationError('Número de telefone inválido!')
+
+        return telefone
                 
-    # def clean_estado(self):
-    #     estado = self.cleaned_data.get('estado')
-
-    #     if estado == 'E':
-    #         raise forms.ValidationError('Selecione um estado válido!')
+                    
+    def clean_estado(self):
+        estado = self.cleaned_data.get('estado')
             
-    #     else:
-    #         return estado
+        if estado == 'E':
+            raise forms.ValidationError('Selecione um estado válido!')
+                
+        return estado
+            

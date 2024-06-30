@@ -74,20 +74,19 @@
                 {% if forloop.counter0|divisibleby:3 %}
                 <div class="row">
                     {% endif %}
-
                     <div class="col-md-4">
                         <div id="inputs">
                             <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
                         {{ field }}
-                        
+                        {% if field.errors %}
+                        <div class="alert alert-warning" role="alert" style="font-weight: bold;">
+                            {% for error in field.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
-                    <!-- {% for error in field.errors %}
-                    <div>
-                        <h4>{{ error }}</h4>
-                    </div>
-                    {% endfor %}                   
-                     -->
                     <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
                     {% if forloop.counter0|divisibleby:3 and not forloop.first %}
                 </div>
