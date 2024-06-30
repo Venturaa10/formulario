@@ -43,18 +43,21 @@ class Cliente(models.Model):
         ('SE', 'Sergipe'),
         ('TO', 'Tocantins'),
     ]
-
+    ''' EXPLICAÇÃO DOS ATRIBUTOS
+        # 'validators' adicionei parametros para exigir um valor minimo e maximo no campo idade em admin
+        # O comentario não é um campo obrigatorio, por isso dever ter "null" e "blank" como TRUE, pois por padrão o Django torna o preenchimento obrigatorio
+        unique=True -> O django garante que não ocorra informações dessas atributos com valores duplicados no banco de dados
+    '''
     nome = models.CharField(max_length=20, null=False, blank=False)
     sobrenome = models.CharField(max_length=30, null=False, blank=False)
     sexo = models.CharField(max_length=1, choices=OPCAO_SEXO, default='I')
-    # 'validators' adicionei parametros para exigir um valor minimo e maximo no campo idade em admin
     idade = models.IntegerField(
         validators=[MinValueValidator(1),MaxValueValidator(100)],
         null=False, blank=False)
-    email = models.EmailField(max_length=50, null=False, blank=False)
+    email = models.EmailField(max_length=50,unique=True,null=False, blank=False)
     estado = models.CharField(max_length=2, choices=OPCAO_ESTADOS_BRASIL, null=False, blank=False, default='E')
-    telefone = models.CharField(max_length=13, null=False, blank=False)
-    comentario = models.TextField(max_length=500)
+    telefone = models.CharField(max_length=13,unique=True,null=False, blank=False)
+    comentario = models.TextField(max_length=250, null=True, blank=True)
     # Atributo que exibe a data e a hora de criação do cliente
     data_criacao = models.DateTimeField(default=datetime.now)
     # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
@@ -68,10 +71,10 @@ class Cliente(models.Model):
         super().clean()
         if self.idade < 1 or self.idade > 100:
             raise ValidationError('Informe uma idade entre 1 e 100 anos de idade!')
-        
+            
         if self.estado == 'E':
             # Nesse caso, caso o valor do atributo seja igual a 'E', isso significa que o cliente não informou um estado, retornando uma mensagem de erro e solicitando que o cliente selecione um estado válido.
             raise ValidationError('Selecione um estado válido!')
-
+            
     def __str__(self):
         return f'{self.nome} {self.sobrenome}'

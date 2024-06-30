@@ -29,7 +29,7 @@ class ClienteForm(forms.ModelForm):
         }
 
     '''
-    Validações das informações recebidas no template do formulario feita através do metodo "clean"
+    Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
     '''
 
     def clean_telefone(self):
