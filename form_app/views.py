@@ -49,3 +49,8 @@ def cadastro(request):
         form = ClienteForm()
 
     return render(request,'index.html', {'form': form})
+
+def exibir(request):
+    cliente = Cliente.objects.all()
+    return render(request, 'exibir.html', {'cliente': cliente})
+
