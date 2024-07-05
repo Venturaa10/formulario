@@ -61,6 +61,8 @@
                         <td class="info_objeto">{{objeto.sobrenome}}</td>
                         <td class="info_objeto">{{objeto.email}}</td>
                         <td class="info_objeto">{{objeto.ativo}}</td>
+                        <td><a class="btn btn-outline-info" href="{% url 'editar' objeto.id %}" role="button">Editar</a></td>
+                        <td><a class="btn btn-outline-danger" href="{% url 'excluir' objeto.id %}" role="button">Excluir</a></td>
                 </tbody>
                 {% endfor %}
     </div>

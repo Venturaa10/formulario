@@ -51,6 +51,29 @@ def cadastro(request):
     return render(request,'index.html', {'form': form})
 
 def exibir(request):
+    '''Exibindo os clientes cadastrados no sistema'''
     cliente = Cliente.objects.all()
     return render(request, 'exibir.html', {'cliente': cliente})
+
+
+def editar(request, cliente_id):
+    cliente = Cliente.objects.get(id=cliente_id) # Armazenando a id do cliente
+    dados = ClienteForm(instance=cliente)
+    if request.method == 'POST':
+        dados = ClienteForm(request.POST, instance=cliente)
+
+        if dados.is_valid():
+            dados.save()
+            messages.success(request, 'Dados Atualizados!')
+            return redirect('exibir')
+
+    return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
+
+
+def excluir(request, cliente_id):
+    cliente = Cliente.objects.get(id=cliente_id)
+
+    cliente.delete() # Deletando o objeto do banco de dados
+    messages.success(request, 'Cliente Excluído do Sistema!')
+    return redirect('exibir')
 
