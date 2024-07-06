@@ -14,7 +14,7 @@ class ClienteForm(forms.ModelForm):
         exclude = ['data_criacao','ativo']
 
         labels = {
-            'comentario': 'Comentário'
+            'cpf':'CPF', 'comentario': 'Comentário'
         }
 
         widgets = {
@@ -24,6 +24,7 @@ class ClienteForm(forms.ModelForm):
             'idade': forms.NumberInput(attrs={'class':'form-control'}),
             'estado': forms.Select(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'placeholder':'SeuEmail@caminho.com', 'class':'form-control'}),
+            'cpf': forms.TextInput(attrs={'placeholder':'111.222-333-45', 'class':'form-control'}),
             'telefone': forms.TextInput(attrs={'placeholder':'(00) 11111-1111', 'class':'form-control'}),
             'comentario': forms.Textarea(attrs={'placeholder':'Sugestões', 'class':'form-control'}), 
         }
@@ -43,8 +44,7 @@ class ClienteForm(forms.ModelForm):
         if len(telefone) < 11 or len(telefone) >= 13 :
             raise forms.ValidationError('Número de telefone inválido!')
 
-        return telefone
-                
+        return telefone                
                     
     def clean_estado(self):
         estado = self.cleaned_data.get('estado')
@@ -53,4 +53,7 @@ class ClienteForm(forms.ModelForm):
             raise forms.ValidationError('Selecione um estado válido!')
                 
         return estado
+    
+    # def clean_cpf(self):
+        
             

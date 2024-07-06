@@ -28,7 +28,9 @@ def cadastro(request):
             Evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
             A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
             '''
+
             if Cliente.objects.filter(email=email).exists():
+                # Retorna mensagem de erro em caso de email já cadastrado anteriormente
                 messages.error(request, 'O EMAIL fornecido já consta em nosso sistema!')
                 return render(request,'index.html', {'form': form})
 
