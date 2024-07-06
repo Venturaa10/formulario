@@ -44,26 +44,24 @@ class Cliente(models.Model):
         ('TO', 'Tocantins'),
     ]
     ''' EXPLICAÇÃO DOS ATRIBUTOS
-        # 'validators' adicionei parametros para exigir um valor minimo e maximo no campo idade em admin
         # O comentario não é um campo obrigatorio, por isso dever ter "null" e "blank" como TRUE, pois por padrão o Django torna o preenchimento obrigatorio
         unique=True -> O django garante que não ocorra informações dessas atributos com valores duplicados no banco de dados
     '''
-    nome = models.CharField(max_length=20, null=False, blank=False)
-    sobrenome = models.CharField(max_length=30, null=False, blank=False)
+    nome = models.CharField(max_length=45, null=False, blank=False, help_text='Nome do Cliente')
+    sobrenome = models.CharField(max_length=45, null=False, blank=False, help_text='Sobrenome do Cliente')
     sexo = models.CharField(max_length=1, choices=OPCAO_SEXO, default='I')
-    idade = models.IntegerField(
-        validators=[MinValueValidator(1),MaxValueValidator(100)],
-        null=False, blank=False)
-    email = models.EmailField(max_length=50,unique=True,null=False, blank=False)
-    cpf = models.CharField(max_length=11,unique=True,null=False, blank=False, default='', validators=[RegexValidator(r'^[0-9]{11}$', 'O CPF deve conter exatamente 11 dígitos apenas.')])
+    idade = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(100)],null=False, blank=False)
+    email = models.EmailField(max_length=50,unique=True,null=False, blank=False, help_text='emailCliente@dominio.com', validators=[EmailValidator(message='Email fornecido é inválido!')])
+    cpf = models.CharField(max_length=11,unique=True,null=False, blank=False, default='', help_text='11122233399', validators=[RegexValidator(r'^[0-9]{11}$', 'O "CPF" deve conter exatamente 11 dígitos apenas!')])
     estado = models.CharField(max_length=2, choices=OPCAO_ESTADOS_BRASIL, null=False, blank=False, default='E')
-    telefone = models.CharField(max_length=13,unique=True,null=False, blank=False)
-    comentario = models.TextField(max_length=250, null=True, blank=True)
+    telefone = models.CharField(max_length=12,unique=True,null=False, blank=False, help_text='11 90000-0000', validators=[RegexValidator(r'^[0-9]{2,3} ?[9][0-9]{4}-?[0-9]{4}$', 'O "número" fornecido é inválido!')])
+    comentario = models.TextField(max_length=250, null=True, blank=True, help_text='Uma sugestão aqui :)')
     # Atributo que exibe a data e a hora de criação do cliente
     data_criacao = models.DateTimeField(default=datetime.now)
     # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
     ativo = models.BooleanField(default=True)
     
+
     def clean(self):
         '''
         Metodo responsavél pela realização das validações dos atributos do model Cliente, recomendado para validações simples.
@@ -71,8 +69,7 @@ class Cliente(models.Model):
         '''
         self.nome = self.nome.title()
         self.sobrenome = self.sobrenome.title()
-        self.cpf = self.cpf.strip()
-        self.telefone = self.telefone.strip()
+        self.telefone = self.telefone.replace(' ','') # Removendo campos vazios
     
         super().clean()
         if not self.nome.isalpha():
