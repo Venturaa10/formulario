@@ -47,8 +47,6 @@
         }
     </style>
 
-    <!-- Inicio Container -->
-    <div class="container-fluid">
         <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
             <!-- Chave de segurança -->
@@ -104,12 +102,5 @@
             </div>
             {% endif %}
             {% endfor %}
-
-            <div>
-                <button><a href="{% url 'exibir' %}">Clientes Cadastrados</a></button>
-            </div>
-    </div>
-    <!-- Fim do Container -->
-
     </form>
     {% endblock %}

@@ -47,9 +47,6 @@
         }
     </style>
 
-
-    <!-- Inicio Container -->
-    <div class="container-fluid">
         <form id="formulario" action="{% url 'editar' cliente_id %}" method="POST">
             <!-- Chave de segurança -->
             {% csrf_token %}
@@ -94,13 +91,6 @@
             </div>
             {% endif %}
             {% endfor %}
-
-            <div>
-                <button><a href="{% url 'exibir' %}">VOLTAR</a></button>
-            </div>
-    </div>
-    <!-- Fim do Container -->
-
     </form>
 
     {% endblock %}
