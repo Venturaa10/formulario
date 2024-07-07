@@ -24,27 +24,38 @@ class ClienteForm(forms.ModelForm):
             'idade': forms.NumberInput(attrs={'class':'form-control'}),
             'estado': forms.Select(attrs={'class':'form-control'}),
             'email': forms.EmailInput(attrs={'placeholder':'SeuEmail@caminho.com', 'class':'form-control'}),
-            'cpf': forms.TextInput(attrs={'placeholder':'111.222-333-45', 'class':'form-control'}),
-            'telefone': forms.TextInput(attrs={'placeholder':'(00) 11111-1111', 'class':'form-control'}),
+            'cpf': forms.TextInput(attrs={'placeholder':'11122233399', 'class':'form-control'}),
+            'celular': forms.TextInput(attrs={'placeholder':'(00) 11111-1111', 'class':'form-control'}),
             'comentario': forms.Textarea(attrs={'placeholder':'Sugestões', 'class':'form-control'}), 
         }
 
     '''
     Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
     '''
+    def clean_nome(self):
+        nome = self.cleaned_data.get('nome')
+        if not nome.isalpha():
+            raise forms.ValidationError('O campo "Nome" não deve incluir números!')
+        return nome
+        
+    def clean_sobrenome(self):
+        sobrenome = self.cleaned_data.get('sobrenome')
+        if not sobrenome.isalpha():
+            raise forms.ValidationError('O campo "Sobrenome" não deve incluir números!')
+        return sobrenome
+    
+    def clean_celular(self):
+        celular = self.cleaned_data.get('celular')
 
-    def clean_telefone(self):
-        telefone = self.cleaned_data.get('telefone')
-
-        for digito in telefone:
+        for digito in celular:
             # Para cada digito do número, se esse não for um número inteiro, retorna a mensagem de erro
             if not digito.isdigit():
-                raise forms.ValidationError('O número de telefone deve ser compostor somente por números inteiros!')
+                raise forms.ValidationError('Número de celular inválido, informe apenas os números sem espaços!')
             
-        if len(telefone) < 11 or len(telefone) >= 13 :
-            raise forms.ValidationError('Número de telefone inválido!')
+        if len(celular) < 11 or len(celular) > 12 :
+            raise forms.ValidationError('Número de celular inválido, informe apenas os números sem espaços!')
 
-        return telefone                
+        return celular                
                     
     def clean_estado(self):
         estado = self.cleaned_data.get('estado')

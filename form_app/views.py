@@ -22,9 +22,9 @@ def cadastro(request):
             '''O "cleaned_data" deve ser feita depois de verificar se o form é válido, ou seja, dentro de "form.is_valid()" '''
             nome_form = form.cleaned_data['nome']
             email = form.cleaned_data['email']
-            telefone = form.cleaned_data['telefone']
+            celular = form.cleaned_data['celular']
 
-            '''Verificando se o número de telefone e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE
+            '''Verificando se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE
             Evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
             A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
             '''
@@ -34,8 +34,8 @@ def cadastro(request):
                 messages.error(request, 'O EMAIL fornecido já consta em nosso sistema!')
                 return render(request,'index.html', {'form': form})
 
-            elif Cliente.objects.filter(telefone=telefone).exists():
-                messages.error(request, 'O NÚMERO DE TELEFONE fornecido já consta em nosso sistema')
+            elif Cliente.objects.filter(celular=celular).exists():
+                messages.error(request, 'O NÚMERO DE celular fornecido já consta em nosso sistema')
                 return render(request,'index.html', {'form': form})
 
             form.save()

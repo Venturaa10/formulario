@@ -52,9 +52,9 @@ class Cliente(models.Model):
     sexo = models.CharField(max_length=1, choices=OPCAO_SEXO, default='I')
     idade = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(100)],null=False, blank=False)
     email = models.EmailField(max_length=50,unique=True,null=False, blank=False, help_text='emailCliente@dominio.com', validators=[EmailValidator(message='Email fornecido é inválido!')])
-    cpf = models.CharField(max_length=11,unique=True,null=False, blank=False, default='', help_text='11122233399', validators=[RegexValidator(r'^[0-9]{11}$', 'O "CPF" deve conter exatamente 11 dígitos apenas!')])
+    cpf = models.CharField(max_length=11,unique=True,null=False, blank=False, default='', help_text='11122233399', validators=[RegexValidator(r'^[0-9]{11}$', 'O "CPF" deve conter exatamente 11 números!')])
     estado = models.CharField(max_length=2, choices=OPCAO_ESTADOS_BRASIL, null=False, blank=False, default='E')
-    telefone = models.CharField(max_length=12,unique=True,null=False, blank=False, help_text='11 90000-0000', validators=[RegexValidator(r'^[0-9]{2,3} ?[9][0-9]{4}-?[0-9]{4}$', 'O "número" fornecido é inválido!')])
+    celular = models.CharField(max_length=12,unique=True,null=False, blank=False, help_text='11 90000-0000', validators=[RegexValidator(r'^[0-9]{2,3} ?[0-9]{5}-?[0-9]{4}$', 'O "número" fornecido é inválido!')])
     comentario = models.TextField(max_length=250, null=True, blank=True, help_text='Uma sugestão aqui :)')
     # Atributo que exibe a data e a hora de criação do cliente
     data_criacao = models.DateTimeField(default=datetime.now)
@@ -69,7 +69,7 @@ class Cliente(models.Model):
         '''
         self.nome = self.nome.title()
         self.sobrenome = self.sobrenome.title()
-        self.telefone = self.telefone.replace(' ','') # Removendo campos vazios
+        self.celular = self.celular.replace(' ','') # Removendo espaços da string
     
         super().clean()
         if not self.nome.isalpha():
@@ -86,4 +86,4 @@ class Cliente(models.Model):
             raise ValidationError('Selecione um estado válido!')
         
     def __str__(self):
-        return f'{self.nome} {self.sobrenome}'
+        return f'Ficha de Cadastro do(a) Cliente: {self.nome} {self.sobrenome}'
