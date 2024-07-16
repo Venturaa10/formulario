@@ -2,6 +2,33 @@
 from django import forms 
 from form_app.models import Cliente
 
+class LoginForm(forms.Form):
+    nome_login=forms.CharField(
+        label='Nome de Login',
+        required=True, # Torna o preenchimento desse campo obrigatorio
+        max_length= 50,
+        widget=forms.TextInput(
+            # Estilizando os labels do HTML através do proprio atributo do objeto
+            attrs={
+                'class': 'form-control', 
+                'placeholder': 'Ex.: João Victor'
+            }
+        )
+    )
+    
+    senha=forms.CharField(
+        label='Senha',
+        required=True, # Torna o preenchimento desse campo obrigatorio
+        max_length=25,
+        widget=forms.PasswordInput(
+            # 
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Digite a sua senha'
+            }
+        )
+    )
+
 class ClienteForm(forms.ModelForm):
     '''Este formulario é baseado no modelo "Cliente" '''
     class Meta:

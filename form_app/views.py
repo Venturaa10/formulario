@@ -1,17 +1,40 @@
 from django.shortcuts import render, redirect
-from form_app.forms import ClienteForm
+from form_app.forms import ClienteForm, LoginForm
 from django.contrib.auth.models import User
 from form_app.models import Cliente
 from django.contrib import auth # Importando o modulo para realizar a autenticação
 from django.contrib import messages # Importando o modulo responsavél por retornar mensagens ao usuario
+from django.contrib.auth.decorators import login_required
 
+def login(request): 
+    form = LoginForm()
+    if request.method == 'POST':
+        form = LoginForm(request.POST) # Recria o formulario com os dados enviados pelo usuario, por isso é utilizado o "request.POST" como parametro
 
-def index(request):
-    '''Exibe a pagina de cadastro e os inputs a serem preenchidos pelo Cliente'''
-    form = ClienteForm()
+        if form.is_valid():
 
-    return render(request,'index.html', {'form': form})
+            nome = form['nome_login'].value()
+            senha = form['senha'].value()
 
+            usuario = auth.authenticate(
+                request,
+                username=nome,
+                password=senha
+            )
+
+            if usuario is not None:
+                auth.login(request, usuario)
+                messages.success(request, f'{nome} logado com sucesso!') 
+                return redirect('cadastro')
+            else:
+                messages.error(request, 'Erro ao efetuar login!')
+                return redirect('login')
+        else:
+           pass
+
+    return render(request, 'login.html', {'form': form})
+
+@login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def cadastro(request):
     form = ClienteForm()
 
@@ -32,15 +55,15 @@ def cadastro(request):
             if Cliente.objects.filter(email=email).exists():
                 # Retorna mensagem de erro em caso de email já cadastrado anteriormente
                 messages.error(request, 'O EMAIL fornecido já consta em nosso sistema!')
-                return render(request,'index.html', {'form': form})
+                return render(request,'cadastro.html', {'form': form})
 
             elif Cliente.objects.filter(celular=celular).exists():
                 messages.error(request, 'O NÚMERO DE celular fornecido já consta em nosso sistema')
-                return render(request,'index.html', {'form': form})
+                return render(request,'cadastro.html', {'form': form})
 
             form.save()
             messages.success(request, f'{nome_form} cadastrado(a) com sucesso!')
-            return redirect('index')
+            return redirect('cadastro')
 
         else:
             messages.error(request, f'Erro ao cadastrar, verifique as informações fornecidas!')
@@ -50,14 +73,15 @@ def cadastro(request):
         '''Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui'''
         form = ClienteForm()
 
-    return render(request,'index.html', {'form': form})
+    return render(request,'cadastro.html', {'form': form})
 
+@login_required(login_url='login') 
 def exibir(request):
     '''Exibindo os clientes cadastrados no sistema'''
     cliente = Cliente.objects.all()
     return render(request, 'exibir.html', {'cliente': cliente})
 
-
+@login_required(login_url='login')
 def editar(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id) # Armazenando a id do cliente
     dados = ClienteForm(instance=cliente)
@@ -71,7 +95,7 @@ def editar(request, cliente_id):
 
     return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
 
-
+@login_required(login_url='login')
 def excluir(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
 
@@ -79,3 +103,7 @@ def excluir(request, cliente_id):
     messages.success(request, 'Cliente Excluído do Sistema!')
     return redirect('exibir')
 
+def logout(request):
+    auth.logout(request)
+    messages.success(request, 'Logout efetuado com sucesso') 
+    return redirect('login')
