@@ -7,15 +7,17 @@ from django.contrib import messages # Importando o modulo responsavél por retor
 from django.contrib.auth.decorators import login_required
 
 def login(request): 
+    '''Função reponsavel por pedir o login ao usuario para liberar o acessa as informações dos clientes cadastrados'''
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST) # Recria o formulario com os dados enviados pelo usuario, por isso é utilizado o "request.POST" como parametro
 
         if form.is_valid():
-
-            nome = form['nome_login'].value()
+            # Recupera os valores fornecidos no formulario
+            nome = form['nome_login'].value() 
             senha = form['senha'].value()
 
+            # Faz a autenticação para saber se o usuario existe
             usuario = auth.authenticate(
                 request,
                 username=nome,
@@ -23,10 +25,12 @@ def login(request):
             )
 
             if usuario is not None:
+                # Se o usuário for autenticado com sucesso (usuario não é "None"), realiza o login e redireciona para a página de cadastro
                 auth.login(request, usuario)
                 messages.success(request, f'{nome} logado com sucesso!') 
                 return redirect('cadastro')
             else:
+                # Se a autenticação falhar, exibe uma mensagem de erro e redireciona de volta para a página de login
                 messages.error(request, 'Erro ao efetuar login!')
                 return redirect('login')
         else:
@@ -42,15 +46,13 @@ def cadastro(request):
         form = ClienteForm(request.POST)
 
         if form.is_valid():
-            '''O "cleaned_data" deve ser feita depois de verificar se o form é válido, ou seja, dentro de "form.is_valid()" '''
+            # O "cleaned_data" deve ser feita depois de verificar se o form é válido, ou seja, dentro de "form.is_valid()" 
             nome_form = form.cleaned_data['nome']
             email = form.cleaned_data['email']
             celular = form.cleaned_data['celular']
 
-            '''Verificando se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE
-            Evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
-            A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
-            '''
+            # Verificando se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE, evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
+            # A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
 
             if Cliente.objects.filter(email=email).exists():
                 # Retorna mensagem de erro em caso de email já cadastrado anteriormente
@@ -70,7 +72,7 @@ def cadastro(request):
             print(form.errors) 
 
     else:
-        '''Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui'''
+        #Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui
         form = ClienteForm()
 
     return render(request,'cadastro.html', {'form': form})

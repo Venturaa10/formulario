@@ -43,10 +43,9 @@ class Cliente(models.Model):
         ('SE', 'Sergipe'),
         ('TO', 'Tocantins'),
     ]
-    ''' EXPLICAÇÃO DOS ATRIBUTOS
+        # EXPLICAÇÃO DOS ATRIBUTOS
         # O comentario não é um campo obrigatorio, por isso dever ter "null" e "blank" como TRUE, pois por padrão o Django torna o preenchimento obrigatorio
-        unique=True -> O django garante que não ocorra informações dessas atributos com valores duplicados no banco de dados
-    '''
+        # unique=True -> O django garante que não ocorra informações dessas atributos com valores duplicados no banco de dados
     nome = models.CharField(max_length=45, null=False, blank=False, help_text='Nome do Cliente')
     sobrenome = models.CharField(max_length=45, null=False, blank=False, help_text='Sobrenome do Cliente')
     sexo = models.CharField(max_length=1, choices=OPCAO_SEXO, default='I')

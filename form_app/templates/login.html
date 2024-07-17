@@ -1,13 +1,47 @@
 {% extends 'shared/base.html' %}
 {% block content %}
+<style>
+    .corpo {
+        background-color:wheat
+    }
+    .container {
+        background-color: rgb(251, 207, 160);
+        
+        border-color: black;
+        border-radius: 15px;
+        border-style: solid;
+        border-width: 10px;
+    
+        padding: 50px;
+        margin-top: 100px;
+    }
+    .subtitulo{ 
+        color: rgb(0, 0, 0);
+        font-weight: bolder;
+    }
+    .botao{
+        background-color: black;
+
+        color: whitesmoke;
+        font-weight: bolder;
+        margin-top:15px;
+        padding: 5px;
+        border-radius: 5px;   
+    }
+
+    .alertas {
+        margin-top: 5px;
+    }
+</style>
+<body class="corpo">    
 <div class="container">
 
     <form action="{% url 'login' %}" method="POST">
         {% csrf_token %}
         <div class="row">
             {% for field in form.visible_fields %}
-            <div class="col-12 col-lg-12" style="margin-bottom: 10px;">
-                <label style="color:#D9D9D9; margin-bottom: 5px;" for="{{ field.id_for_label }}">{{field.label}}</label>
+            <div class="col-12 col-lg-12">
+                <label class="subtitulo" for="{{ field.id_for_label }}">{{field.label}}</label>
                 {{ field }}
             </div>
             {% endfor %}
@@ -15,19 +49,20 @@
         {% for message in messages %}
         <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
         {% if message.tags == 'error' %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alertas" role="alert">
             <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
         </div>
         {% else %}
-        <div class="alert alert-success" role="alert">
+        <div class="alertas" role="alert">
             <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
         </div>
         {% endif %}
         {% endfor %}
         <div>
-            <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Logar</button>
+            <button class="botao" type="submit">Logar</button>
         </div>
     </form>
 </div>
+</body>
 
 {% endblock %}

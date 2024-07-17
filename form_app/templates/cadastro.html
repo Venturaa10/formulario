@@ -4,11 +4,12 @@
 
 <style>
     .corpo {
-    background-color: blanchedalmond;
+        background-color:wheat
     }
-    
+
     .container {
-        background-color: rgb(0, 255, 242);
+        background-color: rgb(251, 207, 160);
+        margin-top: 50px;
         border-radius: 15px;
         border-width: 10px;
         border-style: solid;
@@ -36,7 +37,7 @@
 
     #botao {
         background-color: black;
-        color: rgb(45, 152, 173);
+        color: whitesmoke;
         border-radius: 20px;
         font-weight: bold;
         font-size: 20px;
@@ -47,6 +48,7 @@
         height: auto;
 
     }
+
     .centraliza_botao {
         text-align: center;
     }
@@ -59,66 +61,67 @@
 </style>
 
 <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
+
 <body class="corpo">
-    
+
     <div class="container">
 
-    <form id="formulario" action="{% url 'cadastro' %}" method="POST">
-        <!-- Chave de segurança -->
-        {% csrf_token %}
-        <div class="ficha">
-            <h3 id="titulo">CADASTRO CLIENTE</h3>
-            <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
-            {% for field in form.visible_fields %}
+        <form id="formulario" action="{% url 'cadastro' %}" method="POST">
+            <!-- Chave de segurança -->
+            {% csrf_token %}
+            <div class="ficha">
+                <h3 id="titulo">CADASTRO CLIENTE</h3>
+                <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
+                {% for field in form.visible_fields %}
 
-            <!-- CONDIÇÃO IF forloop...
+                <!-- CONDIÇÃO IF forloop...
                 Verifica se o indice atual (forloop.counter 0) é divisivel por 3 
                 Se a condição for True, cria uma nova linha "row" para agrupar outros 3 campos
                 !Para funcionar precisei deixar sem espaçamento na condição!-->
-            {% if forloop.counter0|divisibleby:3 %}
-            <div class="row">
-                {% endif %}
-                <div class="col-md-4">
-                    <div id="inputs">
-                        <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    </div>
-                    {{ field }}
-
-                    <!-- Caso o "field" não seja informado pelo usuario da maneira correta e existir uma validação / verificação / tratamento desse erro em "forms.py", será exibido uma mensagem avisando sobre o erro-->
-                    {% if field.errors %}
-                    <div class="alert alert-warning" role="alert" style="font-weight: bold;">
-                        {% for error in field.errors %}
-                        {{ error }} <!-- Aqui aparece a mensagem de erro -->
-                        {% endfor %}
-                    </div>
+                {% if forloop.counter0|divisibleby:3 %}
+                <div class="row">
                     {% endif %}
+                    <div class="col-md-4">
+                        <div id="inputs">
+                            <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        </div>
+                        {{ field }}
+
+                        <!-- Caso o "field" não seja informado pelo usuario da maneira correta e existir uma validação / verificação / tratamento desse erro em "forms.py", será exibido uma mensagem avisando sobre o erro-->
+                        {% if field.errors %}
+                        <div class="alert alert-warning" role="alert" style="font-weight: bold;">
+                            {% for error in field.errors %}
+                            {{ error }} <!-- Aqui aparece a mensagem de erro -->
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
+                    {% if forloop.counter0|divisibleby:3 and not forloop.first %}
                 </div>
-                <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
-                {% if forloop.counter0|divisibleby:3 and not forloop.first %}
+                <!-- Fecha a "div" se for o ultimo campo do formulario, garantindo o fechamento correto, mesmo que contenha menos de três campos-->
+                {% elif forloop.last %}
             </div>
-            <!-- Fecha a "div" se for o ultimo campo do formulario, garantindo o fechamento correto, mesmo que contenha menos de três campos-->
-            {% elif forloop.last %}
-        </div>
-        {% endif %}
-        {% endfor %}
-        <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
-        <div class="centraliza_botao">
-            <button id="botao" type="submit">CADASTRAR</button>
-        </div>
-        {% for message in messages %}
-        <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
-        {% if message.tags == 'error' %}
-        <div class="alert alert-danger" role="alert">
-            <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
-        </div>
-        {% else %}
-        <div class="alert alert-success" role="alert">
-            <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </form>
-</div>
+            {% endif %}
+            {% endfor %}
+            <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
+            <div class="centraliza_botao">
+                <button id="botao" type="submit">CADASTRAR</button>
+            </div>
+            {% for message in messages %}
+            <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
+            {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
+            </div>
+            {% else %}
+            <div class="alert alert-success" role="alert">
+                <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </form>
+    </div>
 
 </body>
 

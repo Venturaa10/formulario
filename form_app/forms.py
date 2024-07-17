@@ -11,7 +11,7 @@ class LoginForm(forms.Form):
             # Estilizando os labels do HTML através do proprio atributo do objeto
             attrs={
                 'class': 'form-control', 
-                'placeholder': 'Ex.: João Victor'
+                'placeholder': 'Nome Usuario'
             }
         )
     )
@@ -28,6 +28,8 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+    
 
 class ClienteForm(forms.ModelForm):
     '''Este formulario é baseado no modelo "Cliente" '''
@@ -56,9 +58,8 @@ class ClienteForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'placeholder':'Sugestões', 'class':'form-control'}), 
         }
 
-    '''
-    Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
-    '''
+    # Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
+
     def clean_nome(self):
         nome = self.cleaned_data.get('nome')
         if not nome.isalpha():

@@ -3,6 +3,13 @@
 <title>Clientes Cadastrados</title> <!--Nome da Guia de Navegação-->
 
 <style>
+    .corpo {
+        background-color:wheat
+    }
+    .container {
+        background-color: rgb(251, 207, 160);
+        margin-top: 50px;
+    }
     .subtitulos {
         border: 5px;
         border-width: 5px;
@@ -51,8 +58,7 @@
         pointer-events: none;
     }
 </style>
-
-<div class="container">
+<body class="corpo">
 <h2>Clientes Cadastrados</h2>
 <!-- Essa parte inicial do table está fora do for, pois não vai se repetir -->
 <table class="table">
@@ -67,7 +73,7 @@
             <th scope="col">Excluir</th>
         </tr>
     </thead>
-
+    
     {% for objeto in cliente %}<!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
     <tbody>
         <tr class="info_cliente">
@@ -94,5 +100,5 @@
             </td>
     </tbody>
     {% endfor %}
-</div>
     {% endblock %}
+</body>
