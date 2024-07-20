@@ -9,23 +9,37 @@
 
 
 <nav class="navbar">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Controle de Clientes</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+  <div class="container-fluid">
+
+    {% if user.is_authenticated %}
+    <h1 class="navbar-brand">Aréa do Administrador</h1>
+    {% else %}
+    <h1 class="navbar-brand">          
+      <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastro</a>
+    </h1>
+    {% endif %}
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <!-- Se o usuario não estiver logado como administrador, será exibido apenas as opçoes de cadastro e login -->
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastrar</a>
+        </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastrar Cliente</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'exibir' %}">Clientes Cadastrados</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'exibir' %}">Clientes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Deslogar</a>
           </li>
-        </ul>
-      </div>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Logar</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>

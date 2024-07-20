@@ -7,7 +7,7 @@ from django.contrib import messages # Importando o modulo responsavél por retor
 from django.contrib.auth.decorators import login_required
 
 def login(request): 
-    '''Função reponsavel por pedir o login ao usuario para liberar o acessa as informações dos clientes cadastrados'''
+    '''Função reponsavel por pedir o login ao usuario para liberar o acesso as informações dos clientes cadastrados'''
     form = LoginForm()
     if request.method == 'POST':
         form = LoginForm(request.POST) # Recria o formulario com os dados enviados pelo usuario, por isso é utilizado o "request.POST" como parametro
@@ -28,7 +28,7 @@ def login(request):
                 # Se o usuário for autenticado com sucesso (usuario não é "None"), realiza o login e redireciona para a página de cadastro
                 auth.login(request, usuario)
                 messages.success(request, f'{nome} logado com sucesso!') 
-                return redirect('cadastro')
+                return redirect('exibir')
             else:
                 # Se a autenticação falhar, exibe uma mensagem de erro e redireciona de volta para a página de login
                 messages.error(request, 'Erro ao efetuar login!')
@@ -38,10 +38,10 @@ def login(request):
 
     return render(request, 'login.html', {'form': form})
 
-@login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
+
 def cadastro(request):
     form = ClienteForm()
-
+    
     if request.method == 'POST':
         form = ClienteForm(request.POST)
 
@@ -77,7 +77,7 @@ def cadastro(request):
 
     return render(request,'cadastro.html', {'form': form})
 
-@login_required(login_url='login') 
+@login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
     '''Exibindo os clientes cadastrados no sistema'''
     cliente = Cliente.objects.all()
