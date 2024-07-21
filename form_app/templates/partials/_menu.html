@@ -11,9 +11,9 @@
 <nav class="navbar">
   <div class="container-fluid">
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated %} <!--Usuario esta logado como admin-->
     <h1 class="navbar-brand">Aréa do Administrador</h1>
-    {% else %}
+    {% else %} <!--Usuario não esta logado como admin-->
     <h1 class="navbar-brand">          
       <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastro</a>
     </h1>

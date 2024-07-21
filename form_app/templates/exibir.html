@@ -4,28 +4,40 @@
 
 <style>
     .corpo {
-        background-color:wheat
+        background-color: wheat
     }
-    .container {
-        background-color: rgb(251, 207, 160);
-        margin-top: 50px;
-    }
-    .subtitulos {
-        border: 5px;
-        border-width: 5px;
-        border-style: solid;
-        border-bottom: 0;
-    }
-
-    .info_cliente {
-        border-top: None;
+    .borda{ 
         border: 5px;
         border-radius: 5px;
         border-style: solid;
         border-color: rgb(10, 105, 120);
     }
 
+    .container {
+        margin-top: 50px;
+    }
+
+
+    .subtitulos {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding:10px;
+        /* 
+        border-color: black;
+        border-style: solid;
+        border-width: 20px; */
+    }
+
+    .info_cliente {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        
+    }
+
     .info_objeto {
+        width: 150px;
         font-size: 15px;
         font-weight: bold;
         font-family: Arial, Helvetica, sans-serif;
@@ -58,47 +70,46 @@
         pointer-events: none;
     }
 </style>
+
 <body class="corpo">
-<h2>Clientes Cadastrados</h2>
-<!-- Essa parte inicial do table está fora do for, pois não vai se repetir -->
-<table class="table">
-    <thead>
-        <tr class="subtitulos">
-            <th scope="col">Nome</th>
-            <th scope="col">Sobrenome</th>
-            <th scope="col">Email</th>
-            <th scope="col">Número do Celular</th>
-            <th scope="col">Status</th>
-            <th scope="col">Editar</th>
-            <th scope="col">Excluir</th>
-        </tr>
-    </thead>
-    
-    {% for objeto in cliente %}<!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
-    <tbody>
-        <tr class="info_cliente">
-            <td class="info_objeto">{{objeto.nome}}</td>
-            <td class="info_objeto">{{objeto.sobrenome}}</td>
-            <td class="info_objeto">{{objeto.email}}</td>
-            <td class="info_objeto">{{objeto.celular}}</td>
-            <td class="info_objeto">
-                {% if objeto.ativo %}
-                <div class="status_ativo">Ativo</div>
-                {% else %}
-                <div class="status_inativo">Inativo</div>
-                {% endif %}
-            </td>
-            <td>
-                <button class="btn btn-info">
-                    <a href="{% url 'editar' objeto.id %}" role="button">Editar</a>
-                </button>
-            </td>
-            <td>
-                <button class="btn btn-danger">
-                    <a href="{% url 'excluir' objeto.id %}" role="button">Excluir</a>
-                </button>
-            </td>
-    </tbody>
-    {% endfor %}
-    {% endblock %}
+
+    <div class="container">
+        <h2>Clientes Cadastrados</h2>
+        <!-- Essa parte inicial do table está fora do for, pois não vai se repetir -->
+         <div class="borda">
+                <div class="subtitulos">
+                    <h5 scope="col">Nome</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Sobrenome</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Email</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Número do Celular</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Status</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Editar</h5>
+                    <h5 scope="col" style="padding-left: 90px;">Excluir</h5>
+                </div>
+
+                {% for objeto in cliente %}<!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
+                <div class="info_cliente">
+                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.nome}}</div>
+                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.sobrenome}}</div>
+                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.email}}</div>
+                    <div class="info_objeto" style="padding-left: 80px;">{{objeto.celular}}</div>
+                    <div class="info_objeto" style="padding-left: 30px;">
+                        {% if objeto.ativo %}
+                        <div class="status_ativo">Ativo</div>
+                        {% else %}
+                        <div class="status_inativo">Inativo</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <a href="{% url 'editar' objeto.id %}" style="padding-left: 30px;" role="button">Editar</a>
+                    </div>
+                    <div>
+                        <a href="{% url 'excluir' objeto.id %}" style="padding-left: 30px;" role="button">Excluir</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
 </body>
+{% endblock %}
