@@ -2,67 +2,98 @@
 {% block content %}
 <style>
     .corpo {
-        background-color:wheat
+        background-color: wheat;
+        align-items: center;
     }
+
+    /* Classe definidade no arquivo form.py */
+    .form-control {
+        width: 100%;
+        padding: 5px;
+        text-align: center;
+        margin: 2px 0;
+    }
+
     .container {
         background-color: rgb(251, 207, 160);
-        
+
+        width: auto;
+        max-width: max-content;
+        padding: 30px;
+        margin-top: 100px;
+
         border-color: black;
         border-radius: 15px;
         border-style: solid;
         border-width: 10px;
-    
-        padding: 50px;
-        margin-top: 100px;
+
+        /* Centralizando os itens dentro do container*/
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
     }
-    .subtitulo{ 
+
+    .subtitulo {
         color: rgb(0, 0, 0);
         font-weight: bolder;
     }
-    .botao{
+
+    .botao {
         background-color: black;
 
         color: whitesmoke;
         font-weight: bolder;
-        margin-top:15px;
+        margin-top: 15px;
         padding: 5px;
-        border-radius: 5px;   
+        border-radius: 5px;
     }
 
     .alertas {
+        font-weight: bolder;
         margin-top: 5px;
+
     }
+
+
+    /* Estilizando a tag 'form' do template */
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
 </style>
-<body class="corpo">    
-<div class="container">
-    <h3>Area de Administrador</h3>
-    <form action="{% url 'login' %}" method="POST">
-        {% csrf_token %}
-        <div class="row">
-            {% for field in form.visible_fields %}
-            <div class="col-12 col-lg-12">
-                <label class="subtitulo" for="{{ field.id_for_label }}">{{field.label}}</label>
-                {{ field }} 
+
+<body class="corpo">
+    <div class="container">
+        <h3>Area de Administrador</h3>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+                {% for field in form.visible_fields %}
+                <div class="col-12 col-lg-12">
+                    <label class="subtitulo" for="{{ field.id_for_label }}">{{field.label}}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+            {% for message in messages %}
+            <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
+            {% if message.tags == 'error' %}
+            <div class="alertas" role="alert">
+                <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
             </div>
+            {% else %}
+            <div class="alertas" role="alert">
+                <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
+            </div>
+            {% endif %}
             {% endfor %}
-        </div>
-        {% for message in messages %}
-        <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
-        {% if message.tags == 'error' %}
-        <div class="alertas" role="alert">
-            <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
-        </div>
-        {% else %}
-        <div class="alertas" role="alert">
-            <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
-        </div>
-        {% endif %}
-        {% endfor %}
-        <div>
-            <button class="botao" type="submit">Entrar</button>
-        </div>
-    </form>
-</div>
+            <div>
+                <button class="botao" type="submit">Entrar</button>
+            </div>
+        </form>
+    </div>
 </body>
 
 {% endblock %}

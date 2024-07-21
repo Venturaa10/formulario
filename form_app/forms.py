@@ -43,7 +43,7 @@ class ClienteForm(forms.ModelForm):
         exclude = ['data_criacao','ativo']
 
         labels = {
-            'cpf':'CPF', 'comentario': 'Comentário'
+            'cpf':'CPF', 'comentario': 'Observação'
         }
 
         widgets = {

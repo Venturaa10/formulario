@@ -4,19 +4,42 @@
 
 <style>
     .corpo {
-        background-color:wheat
+        background-color: wheat;
+    }
+
+    /* Classe definidade no arquivo form.py */
+    .form-control {
+        width: 65%;
+        margin: 2px 0;
+    }
+
+    /* Estiliza o campo de 'comentario' do tipo textarea */
+    textarea.form-control {
+        height: 100px;
+        /* Desativa a opção de mexer no tamanho do input utilizando o mouse */
+        resize: none;
+    }
+
+    /* Estiliza especificamente o campo NumberInput */
+    input[type="number"].form-control {
+        text-align: center;
+        width: 35%;
     }
 
     .container {
         background-color: rgb(251, 207, 160);
-        margin-top: 50px;
+
+        justify-items: center;
+        width: 90%;
+        max-width: 900px;
+        height: auto;
+        max-height: max-content;
+        margin: 10px auto;
+        padding: 20px;
+
         border-radius: 15px;
         border-width: 10px;
         border-style: solid;
-    }
-
-    .ficha {
-        border-color: cadetblue;
     }
 
     #inputs {
@@ -25,10 +48,9 @@
         font-size: 20px;
         font-family: Arial, Helvetica, sans-serif;
         font-weight: bold;
-
     }
 
-    #titulo {
+    .titulo {
         text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         font-size: 25px;
@@ -64,35 +86,26 @@
 
 <body class="corpo">
     <div class="container">
-
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
             <!-- Chave de segurança -->
             {% csrf_token %}
-            <div class="ficha">
-                {% if not user.is_authenticated %} 
+            <div class="ficha_cadastro">
+                {% if not user.is_authenticated %}
                 <!-- Titulo como Cliente -->
-                <h3 id="titulo">Cadastro</h3>
+                <h3 class="titulo">Cadastro</h3>
                 {% else %}
                 <!-- Titulo como administrador -->
-                <h3 id="titulo">Dados do Cliente</h3>
+                <h3 class="titulo">Dados do Cliente</h3>
                 {% endif %}
-
-                <!-- 'visible_fields' é um atributo padrão dos formulários do Django que retorna uma lista dos campos do formulário que devem ser exibidos -->
                 {% for field in form.visible_fields %}
-                <!-- CONDIÇÃO IF forloop...
-                Verifica se o indice atual (forloop.counter 0) é divisivel por 3 
-                Se a condição for True, cria uma nova linha "row" para agrupar outros 3 campos
-                !Para funcionar precisei deixar sem espaçamento na condição!-->
-                {% if forloop.counter0|divisibleby:3 %}
+                {% if forloop.counter0|divisibleby:6 %}
                 <div class="row">
                     {% endif %}
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div id="inputs">
                             <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
                         {{ field }}
-
-                        <!-- Caso o "field" não seja informado pelo usuario da maneira correta e existir uma validação / verificação / tratamento desse erro em "forms.py", será exibido uma mensagem avisando sobre o erro-->
                         {% if field.errors %}
                         <div class="alert alert-warning" role="alert" style="font-weight: bold;">
                             {% for error in field.errors %}
@@ -101,15 +114,13 @@
                         </div>
                         {% endif %}
                     </div>
-                    <!-- Fecha a "div" se o indice atual for divisivel por 3 e não for o primeiro campo, evitando o fechamento antes da abertura -->
-                    {% if forloop.counter0|divisibleby:3 and not forloop.first %}
+                    {% if forloop.counter0|divisibleby:6 and not forloop.first %}
                 </div>
-                <!-- Fecha a "div" se for o ultimo campo do formulario, garantindo o fechamento correto, mesmo que contenha menos de três campos-->
                 {% elif forloop.last %}
             </div>
             {% endif %}
             {% endfor %}
-            <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro' -->
+            <!-- Enviar os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro') -->
             <div class="centraliza_botao">
                 <button id="botao" type="submit">CADASTRAR</button>
             </div>
