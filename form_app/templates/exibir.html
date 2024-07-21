@@ -6,54 +6,78 @@
     .corpo {
         background-color: wheat
     }
-    .borda{ 
-        border: 5px;
-        border-radius: 5px;
+    .borda{
+        width: max-content;
+        
+        border: 7px;
+        border-radius: 8px;
         border-style: solid;
-        border-color: rgb(10, 105, 120);
+        border-color: rgb(0, 0, 0);
     }
 
     .container {
         margin-top: 50px;
     }
 
-
     .subtitulos {
-        display: flex;
+        /* Div dos subtitulos */
+        color: whitesmoke;
+        background-color:rgb(0, 0, 0)
+    }
+    .subtitulos, .info_cliente {
+        /* Configura layout de grade */
+        display: grid; 
+        /* Centraliza verticalmente os itens na grade */
         align-items: center;
-        margin-bottom: 10px;
-        padding:10px;
+        /* Largura entre as colunas */
+        grid-template-columns: 120px 150px 200px 150px 80px 80px 80px;
         /* 
         border-color: black;
         border-style: solid;
         border-width: 20px; */
     }
+    .fonte_subtitulo {
+        /* Estiliza a fonte do subtitulo */
+        font-size: 20px;
+        text-align: center;
+    }   
+    
+    #subtitulo_editar, #subtitulo_excluir {
+        /* Ajustando o posicionamento dos substitulos correspondente a informação do cliente  */
+        padding-left: 20px;
+    }
 
     .info_cliente {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-        
+        /* Div responsavel por posicionar corretamente as informações do cliente de acordo com o subtitulo correspondente a cada uma delas */
+        padding-left: 5px;
+        margin-bottom: 5px;   
+        background-color:antiquewhite
     }
 
     .info_objeto {
-        width: 150px;
+        /* Estiliza as informações do cliente */
         font-size: 15px;
         font-weight: bold;
         font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        
     }
 
     .status_ativo {
+        /* Estiliza o conteudo dentro do quadrado de 'status' */
         background-color: rgb(9, 167, 127);
     }
 
     .status_inativo {
+        /* Estiliza o conteudo dentro do quadrado de 'status' */
         color: rgb(0, 0, 0);
         background-color: rgb(139, 63, 65);
     }
 
     .status_ativo,
     .status_inativo {
+        margin-top: 3px;
+        margin-bottom: 3px;
         /* Centralizando "ativo" e "Inativo" dentro do quadrado*/
         align-items: center;
         display: flex;
@@ -69,42 +93,49 @@
         /* Fazendo com que não seja possivél interagir com o campo de "Status" */
         pointer-events: none;
     }
+    #botao_editar {
+        color:goldenrod;
+    }
+    #botao_excluir {
+        color:rgb(181, 70, 70);
+    }
+
 </style>
 
 <body class="corpo">
 
     <div class="container">
         <h2>Clientes Cadastrados</h2>
-        <!-- Essa parte inicial do table está fora do for, pois não vai se repetir -->
          <div class="borda">
                 <div class="subtitulos">
-                    <h5 scope="col">Nome</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Sobrenome</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Email</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Número do Celular</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Status</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Editar</h5>
-                    <h5 scope="col" style="padding-left: 90px;">Excluir</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_nome" scope="col">Nome</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_sobrenome" scope="col">Sobrenome</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_email" scope="col">Email</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_number" scope="col">Contato</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_status" scope="col">Status</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_editar" scope="col">Editar</h5>
+                    <h5 class="fonte_subtitulo" id="subtitulo_excluir" scope="col">Excluir</h5>
                 </div>
 
-                {% for objeto in cliente %}<!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
+                {% for objeto in cliente %}
+                <!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
                 <div class="info_cliente">
-                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.nome}}</div>
-                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.sobrenome}}</div>
-                    <div class="info_objeto" style="padding-left: 25px;">{{objeto.email}}</div>
-                    <div class="info_objeto" style="padding-left: 80px;">{{objeto.celular}}</div>
-                    <div class="info_objeto" style="padding-left: 30px;">
+                    <div class="info_objeto">{{objeto.nome}}</div>
+                    <div class="info_objeto">{{objeto.sobrenome}}</div>
+                    <div class="info_objeto">{{objeto.email}}</div>
+                    <div class="info_objeto">{{objeto.celular}}</div>
+                    <div class="info_objeto">
                         {% if objeto.ativo %}
                         <div class="status_ativo">Ativo</div>
                         {% else %}
                         <div class="status_inativo">Inativo</div>
                         {% endif %}
                     </div>
-                    <div>
-                        <a href="{% url 'editar' objeto.id %}" style="padding-left: 30px;" role="button">Editar</a>
+                    <div class="info_objeto">
+                        <a id="botao_editar" href="{% url 'editar' objeto.id %}" role="button">Editar</a>
                     </div>
-                    <div>
-                        <a href="{% url 'excluir' objeto.id %}" style="padding-left: 30px;" role="button">Excluir</a>
+                    <div class="info_objeto">
+                        <a id="botao_excluir" href="{% url 'excluir' objeto.id %}" role="button">Excluir</a>
                     </div>
                 </div>
             {% endfor %}
