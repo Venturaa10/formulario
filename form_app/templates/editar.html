@@ -2,68 +2,101 @@
 {% block content %}
 <title>Formulario</title> <!--Nome da Guia de Navegação-->
 
-    <style>
-        .container-fluid {
-            border-radius: 15px;
-            border-width: 10px;
-            border-color: cadetblue;
-            border-style: solid;
+<style>
+    .corpo {
+        background-color: wheat;
+    }
 
-        }
+    /* Classe definida no arquivo form.py */
+    .form-control {
+        width: 65%;
+        margin: 2px 0;
+    }
 
-        #inputs {
-            color: rgb(0, 0, 0);
+    /* Estiliza o campo de 'comentario' do tipo textarea */
+    textarea.form-control {
+        height: 100px;
+        /* Desativa a opção de mexer no tamanho do input utilizando o mouse */
+        resize: none;
+    }
 
-            font-size: 20px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: bold;
+    /* Estiliza especificamente o campo NumberInput */
+    input[type="number"].form-control {
+        text-align: center;
+        width: 35%;
+    }
 
-        }
+    .container {
+        background-color: rgb(251, 207, 160);
 
-        #titulo {
-            text-align: center;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 25px;
-            font-weight: bold;
-        }
+        justify-items: center;
+        width: 90%;
+        max-width: 900px;
+        height: auto;
+        max-height: max-content;
+        margin: 10px auto;
+        padding: 20px;
 
-        #botao {
-            background-color: black;
-            color: rgb(45, 152, 173);
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 20px;
+        border-radius: 15px;
+        border-width: 10px;
+        border-style: solid;
+    }
 
-            margin-top: 25px;
-            margin-bottom: 25px;
-            width: auto;
-            height: auto;
-        }
+    #inputs {
+        color: rgb(0, 0, 0);
 
-        .mensagens {
-            font-weight: bold;
-            font-size: 20px;
+        font-size: 20px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
 
-        }
-    </style>
+    .titulo {
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 25px;
+        font-weight: bold;
+    }
 
+    #botao {
+        background-color: black;
+        color: whitesmoke;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 20px;
+
+        margin-top: 25px;
+        margin-bottom: 25px;
+        width: auto;
+        height: auto;
+    }
+
+    .centraliza_botao {
+        text-align: center;
+    }
+
+    .mensagens {
+        font-weight: bold;
+        font-size: 20px;
+
+    }
+</style>
+
+<body class="corpo">
+    <div class="container">
         <form id="formulario" action="{% url 'editar' cliente_id %}" method="POST">
             <!-- Chave de segurança -->
             {% csrf_token %}
-            <h3 id="titulo">Dados do Cliente</h3>
-
-            <div class="container text-center">
+            <div class="ficha_cadastro">
+                <h3 class="titulo">Dados do Cliente</h3>
                 {% for field in dados.visible_fields %}
-
-                {% if forloop.counter0|divisibleby:3 %}
+                {% if forloop.counter0|divisibleby:6 %}
                 <div class="row">
                     {% endif %}
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div id="inputs">
                             <label id="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
                         </div>
                         {{ field }}
-
                         {% if field.errors %}
                         <div class="alert alert-warning" role="alert" style="font-weight: bold;">
                             {% for error in field.errors %}
@@ -72,15 +105,18 @@
                         </div>
                         {% endif %}
                     </div>
-                    {% if forloop.counter0|divisibleby:3 and not forloop.first %}
+                    {% if forloop.counter0|divisibleby:6 and not forloop.first %}
                 </div>
                 {% elif forloop.last %}
             </div>
             {% endif %}
             {% endfor %}
-            <button id="botao" type="submit">Salvar Alterações</button>
-
+            <!-- Salvando as alterações dos dados do cliente -->
+            <div class="centraliza_botao">
+                <button id="botao" type="submit">Salvar Alterações</button>
+            </div>
             {% for message in messages %}
+            <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
             {% if message.tags == 'error' %}
             <div class="alert alert-danger" role="alert">
                 <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
@@ -91,6 +127,7 @@
             </div>
             {% endif %}
             {% endfor %}
-    </form>
-
-    {% endblock %}
+        </form>
+    </div>
+</body>
+{% endblock %}

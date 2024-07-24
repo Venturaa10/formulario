@@ -77,11 +77,13 @@ def cadastro(request):
 
     return render(request,'cadastro.html', {'form': form})
 
+
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
     '''Exibindo os clientes cadastrados no sistema'''
     cliente = Cliente.objects.all()
     return render(request, 'exibir.html', {'cliente': cliente})
+
 
 @login_required(login_url='login')
 def editar(request, cliente_id):
