@@ -66,8 +66,8 @@ class Cliente(models.Model):
         Metodo responsavél pela realização das validações dos atributos do model Cliente, recomendado para validações simples.
         raise é usado para lidar com exceções e erros de forma controlada
         '''
-        self.nome = self.nome.title()
-        self.sobrenome = self.sobrenome.title()
+        self.nome = self.nome
+        self.sobrenome = self.sobrenome
         self.celular = self.celular.replace(' ','') # Removendo espaços da string
     
         super().clean()

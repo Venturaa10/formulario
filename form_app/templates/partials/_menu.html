@@ -3,6 +3,25 @@
     background-color:wheat;
     color: black;
     font-weight: bold;
+
+    width: 100%; /* Largura total da navbar */
+    min-width: 320px; /* Tamanho minimo da Navbar*/
+    padding: 10px 20px; 
+    box-sizing: border-box; 
+    display: flex;
+    justify-content: space-between; /* Espaça os elementos igualmente */
+    align-items: center; /* Centraliza os itens verticalmente */
+    overflow: hidden; /* Esconde qualquer overflow */
+  }
+
+  .navbar-brand {
+    margin: 0;
+  }
+
+  .navbar-toggler {
+    background: none;
+    border: none;
+    color: black;
   }
 
 </style>
@@ -22,7 +41,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" style="width: max-content;">
         <!-- Se o usuario não estiver logado como administrador, será exibido apenas as opçoes de cadastro e login -->
         {% if user.is_authenticated %}
         <li class="nav-item">
