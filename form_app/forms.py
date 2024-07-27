@@ -61,15 +61,20 @@ class ClienteForm(forms.ModelForm):
     # Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
 
     def clean_nome(self):
+        # A função "all" -> Retorna "True" se todos os elementos do iterável fornecido forem "True".
+        # c.isalpha() -> Retorna "True" se "c" for uma letra, ou seja, Números e/ou caracteres especiais é "False".
+        # c.isspace() -> Retorna "True" se "c" for um espaço, permitindo nome compostos como: "Lucas Miguel"
+        # Importante! Essa lógica deve ser implementada tanto em "forms" quanto em "models" para funcionar corretamente na interface HTML.
+    
         nome = self.cleaned_data.get('nome')
-        if not nome.isalpha():
-            raise forms.ValidationError('O campo "Nome" não deve incluir números!')
+        if not all(c.isalpha() or c.isspace() for c in nome):
+            raise forms.ValidationError('O campo "Nome" deve incluir apenas letras e espaços!')
         return nome
         
     def clean_sobrenome(self):
         sobrenome = self.cleaned_data.get('sobrenome')
-        if not sobrenome.isalpha():
-            raise forms.ValidationError('O campo "Sobrenome" não deve incluir números!')
+        if not all(c.isalpha() or c.isspace() for c in sobrenome):
+            raise forms.ValidationError('O campo "Sobrenome" deve incluir apenas letras e espaços!')
         return sobrenome
     
     def clean_celular(self):

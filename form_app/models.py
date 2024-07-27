@@ -71,11 +71,11 @@ class Cliente(models.Model):
         self.celular = self.celular.replace(' ','') # Removendo espaços da string
     
         super().clean()
-        if not self.nome.isalpha():
-            raise ValidationError('O campo "Nome" não deve incluir números!')
+        if not all(c.isalpha() or c.isspace() for c in self.nome):
+            raise ValidationError('O campo "Nome" deve incluir apenas letras e espaços!')
         
-        if not self.sobrenome.isalpha():
-            raise ValidationError('O campo "Sobrenome" não deve incluir números!')
+        if not all(c.isalpha() or c.isspace() for c in self.sobrenome):
+            raise ValidationError('O campo "Sobrenome" deve incluir apenas letras e espaços!')
         
         if self.idade < 1 or self.idade > 100:
             raise ValidationError('Informe uma idade entre 1 e 100 anos de idade!')
