@@ -56,11 +56,11 @@ def cadastro(request):
 
             if Cliente.objects.filter(email=email).exists():
                 # Retorna mensagem de erro em caso de email já cadastrado anteriormente
-                messages.add_message(request, messages.ERROR,'O EMAIL fornecido já consta em nosso sistema!', extra_tags='cadastro')
+                messages.add_message(request, messages.INFO,'O EMAIL fornecido já consta em nosso sistema!', extra_tags='cadastro')
                 return render(request,'cadastro.html', {'form': form})
 
             elif Cliente.objects.filter(celular=celular).exists():
-                messages.add_message(request, messages.ERROR,'O NÚMERO DE celular fornecido já consta em nosso sistema', extra_tags='cadastro')
+                messages.add_message(request, messages.INFO,'O NÚMERO DE CELULAR fornecido já consta em nosso sistema', extra_tags='cadastro')
                 return render(request,'cadastro.html', {'form': form})
 
             form.save()
@@ -68,8 +68,7 @@ def cadastro(request):
             return redirect('cadastro')
 
         else:
-            messages.error(request, f'Erro ao cadastrar, verifique as informações fornecidas!', extra_tags='cadastro')
-            print(form.errors) 
+            messages.add_message(request, messages.ERROR,f'Erro ao cadastrar, verifique as informações fornecidas!', extra_tags='cadastro')
 
     else:
         #Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui

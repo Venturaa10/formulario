@@ -49,12 +49,18 @@
         border-radius: 5px;
     }
 
-    .alertas {
-        font-weight: bolder;
-        margin-top: 5px;
 
+    /* Mensangens Bem Sucedidas */
+    .messages.success {
+        font-weight: bold;
+        color: #155724;
     }
 
+    /* Mensangens Mal Sucedidas */
+    .messages.error {
+        font-weight: bold;
+        color: #721c24;
+    }
 
     /* Estilizando a tag 'form' do template */
     form {
@@ -63,6 +69,7 @@
         flex-direction: column;
         align-items: center;
     }
+
 
 </style>
 
@@ -77,18 +84,16 @@
                     {{ field }}
                 </div>
                 {% endfor %}
-            {% for message in messages %}
-            <!-- Condição para mudar de cor de acordo com a mensagem a ser exibida (Sucesso ou Erro), se a "tags" na views for "messages.error" a condição é True (Error), se não é False (Sucesso) -->
-            {% if message.tags == 'error' %}
-            <div class="alertas" role="alert">
-                <p class="mensagens" style="color: rgb(0, 0, 0);">{{ message }}</p>
-            </div>
-            {% else %}
-            <div class="alertas" role="alert">
-                <p class="mensagens" style="color: #0074f9;">{{ message }}</p>
-            </div>
-            {% endif %}
-            {% endfor %}
+    <!-- Exibindo as mensagens e estilizando de acordo com a sua extra_tags correspondente em cada views-->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        {% if 'login' in message.extra_tags %}
+        <span class="messages {{ message.tags }}">{{ message }}</span>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
             <div>
                 <button class="botao" type="submit">Entrar</button>
             </div>
