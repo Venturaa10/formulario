@@ -114,6 +114,27 @@
     #botao_excluir {
         color: rgb(181, 70, 70);
     }
+
+    /* Mensangens De Aviso*/
+    .messages.info {
+        font-weight: bold;
+        background-color: #ffd900;
+        color: #000000;
+    }
+
+    /* Mensangens Bem Sucedidas */
+    .messages.success {
+        font-weight: bold;
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    /* Mensangens Mal Sucedidas */
+    .messages.error {
+        font-weight: bold;
+        background-color: #f8d7da;
+        color: #721c24;
+    }
 </style>
 
 <body class="corpo">
@@ -155,7 +176,19 @@
             </div>
             {% endfor %}
         </div>
-
     </div>
+    <!-- Exibindo as mensagens e estilizando de acordo com a sua extra_tags correspondente em cada views-->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        {% if 'editar' in message.extra_tags %}
+        <span class="messages {{ message.tags }}">{{ message }}</span>
+        {% endif %}
+        {% if 'excluir' in message.extra_tags %}
+        <span class="messages {{ message.tags }}">{{ message }}</span>
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
 </body>
 {% endblock %}

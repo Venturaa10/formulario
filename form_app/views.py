@@ -25,13 +25,13 @@ def login(request):
             )
 
             if usuario is not None:
-                # Se o usuário for autenticado com sucesso (usuario não é "None"), realiza o login e redireciona para a página de cadastro
+                # Se o usuário for autenticado com sucesso (usuario não é "None"), realiza o login e redireciona para o template exibir
                 auth.login(request, usuario)
-                messages.success(request, f'{nome} logado com sucesso!') 
+                messages.add_message(request, messages.INFO,f'{nome} logado com sucesso!', extra_tags='login') 
                 return redirect('exibir')
             else:
                 # Se a autenticação falhar, exibe uma mensagem de erro e redireciona de volta para a página de login
-                messages.error(request, 'Erro ao efetuar login!')
+                messages.add_message(request, messages.ERROR, 'Erro ao efetuar login!', extra_tags='login')
                 return redirect('login')
         else:
            pass
@@ -56,19 +56,19 @@ def cadastro(request):
 
             if Cliente.objects.filter(email=email).exists():
                 # Retorna mensagem de erro em caso de email já cadastrado anteriormente
-                messages.error(request, 'O EMAIL fornecido já consta em nosso sistema!')
+                messages.add_message(request, messages.ERROR,'O EMAIL fornecido já consta em nosso sistema!', extra_tags='cadastro')
                 return render(request,'cadastro.html', {'form': form})
 
             elif Cliente.objects.filter(celular=celular).exists():
-                messages.error(request, 'O NÚMERO DE celular fornecido já consta em nosso sistema')
+                messages.add_message(request, messages.ERROR,'O NÚMERO DE celular fornecido já consta em nosso sistema', extra_tags='cadastro')
                 return render(request,'cadastro.html', {'form': form})
 
             form.save()
-            messages.success(request, f'{nome_form} cadastrado(a) com sucesso!')
+            messages.add_message(request, messages.SUCCESS,f'Cadastro de {nome_form} realizado com sucesso!', extra_tags='cadastro')
             return redirect('cadastro')
 
         else:
-            messages.error(request, f'Erro ao cadastrar, verifique as informações fornecidas!')
+            messages.error(request, f'Erro ao cadastrar, verifique as informações fornecidas!', extra_tags='cadastro')
             print(form.errors) 
 
     else:
@@ -94,7 +94,7 @@ def editar(request, cliente_id):
 
         if dados.is_valid():
             dados.save()
-            messages.success(request, 'Dados Atualizados!')
+            messages.add_message(request, messages.INFO, 'Dados Atualizados!', extra_tags='editar')
             return redirect('exibir')
 
     return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
@@ -104,10 +104,10 @@ def excluir(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
 
     cliente.delete() # Deletando o objeto do banco de dados
-    messages.success(request, 'Cliente Excluído do Sistema!')
+    messages.add_message(request, messages.ERROR,'Cliente Excluído do Sistema!', extra_tags='excluir')
     return redirect('exibir')
 
 def logout(request):
     auth.logout(request)
-    messages.success(request, 'Logout efetuado com sucesso') 
+    messages.add_message(request, messages.SUCCESS,'Logout efetuado com sucesso', extra_tags='logout') 
     return redirect('login')
