@@ -68,7 +68,15 @@
     .botao_pesquisa:hover {
         color: whitesmoke; /* Muda a cor do link ao passar o mouse */
     }
-
+    #div_busca_mensagem {
+        text-align: left;
+        margin: 0;
+        padding-top: 8px;
+    }
+    #busca_mensagem {
+        font-weight: bold;
+        color: rgb(178, 73, 73);
+    }
     /* Div dos subtitulos */
     .subtitulos {
         color: whitesmoke;
@@ -196,12 +204,22 @@
     <div class="buscar">
         <nav class="barra_pesquisa">
             <div class="container-fluid">
-                <form class="d-flex" role="search">
+                <form action="{% url 'buscar' %}" name="buscar" class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Buscar por CPF" aria-label="Search">
                     <button class="botao_pesquisa" type="submit">Buscar</button>
                 </form>
             </div>
         </nav>
+        <!-- Mensagem da função 'buscar' em views -->
+                {% if messages %}
+            <div id="div_busca_mensagem">
+                {% for message in messages %}
+                {% if 'buscar' in message.extra_tags %}
+                <span id="busca_mensagem">{{ message }}</span>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
     </div>
     <div class="container">
         <div class="borda_container">
@@ -214,7 +232,6 @@
                 <h5 class="fonte_subtitulo" id="subtitulo_editar" scope="col">Editar</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_excluir" scope="col">Excluir</h5>
             </div>
-
             {% for objeto in cliente %}
             <!-- Dentro do for, pois haverá repetição a cada cadastro novo -->
             <div class="info_cliente">

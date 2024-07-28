@@ -83,6 +83,19 @@ def exibir(request):
     cliente = Cliente.objects.all()
     return render(request, 'exibir.html', {'cliente': cliente})
 
+@login_required(login_url='login') 
+def buscar(request):
+    buscar_cpf = request.GET.get('buscar', '') # Recebendo e armazenando o cpf a ser consultado, se não tiver, retornar uma string vazia
+    
+    if buscar_cpf: # Verifica se contém um valor, se sim...
+        clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf) # Faz a busca do cliente dentro do model "Cliente", cujo cpf é o informado
+        messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
+ 
+    else: # Se não
+        clientes = Cliente.objects.all() # Buscando todos os clientes
+        messages.add_message(request, messages.ERROR, 'Cliente não localizado no sistema!', extra_tags='buscar')
+    
+    return render(request, 'exibir.html', {'cliente': clientes})
 
 @login_required(login_url='login')
 def editar(request, cliente_id):
@@ -111,3 +124,4 @@ def logout(request):
     auth.logout(request)
     messages.add_message(request, messages.SUCCESS,'Logout efetuado com sucesso', extra_tags='logout') 
     return redirect('login')
+
