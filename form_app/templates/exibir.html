@@ -6,7 +6,7 @@
     .messages {
         margin-left: 20px;
     }
-    
+
     .corpo {
         background-color: wheat;
     }
@@ -24,12 +24,49 @@
     .container {
         display: flex;
         justify-content: center;
-        margin-top: 40px;
+        margin-top: 20px;
+        margin: 0 auto;
         width: 100%;
     }
 
     #titulo_tabela {
         text-align: center;
+    }
+
+    .buscar {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        /* Ocupando toda a largura da div*/
+        padding-bottom: 5px;
+        /* Espaçamento inferior */
+        padding-left: 310px;
+        /* Espaçamento a esquerda */
+        margin: 0;
+        /* Remove as margens */
+    }
+
+    .form-control{
+        color: rgb(245, 245, 245);
+        background-color: rgb(227, 198, 162);
+    }
+
+    /* Estiliza o placeholder de determinado input */
+    .form-control::placeholder {
+        color: rgb(34, 48, 60);
+        font-size: 15px;
+        font-weight: bold;
+    }
+    
+    .botao_pesquisa {
+        background-color: rgb(136, 127, 108);
+        color: rgb(34, 48, 60);
+        font-weight: bold;
+        border-radius: 10px;
+    }
+
+    .botao_pesquisa:hover {
+        color: whitesmoke; /* Muda a cor do link ao passar o mouse */
     }
 
     /* Div dos subtitulos */
@@ -46,10 +83,6 @@
         align-items: center;
         /* Largura entre as colunas */
         grid-template-columns: 120px 150px 200px 150px 80px 80px 80px;
-        /* 
-        border-color: black;
-        border-style: solid;
-        border-width: 20px; */
     }
 
     /* Estiliza a fonte do subtitulo */
@@ -57,9 +90,11 @@
         font-size: 20px;
         text-align: center;
     }
-    #subtitulo_status{
+
+    #subtitulo_status {
         padding-right: 12px;
     }
+
     /* Ajustando o posicionamento dos substitulos correspondente a informação do cliente  */
     #subtitulo_editar,
     #subtitulo_excluir {
@@ -158,13 +193,23 @@
     <div id="titulo_tabela">
         <h2>Clientes Cadastrados</h2>
     </div>
+    <div class="buscar">
+        <nav class="barra_pesquisa">
+            <div class="container-fluid">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Buscar por CPF" aria-label="Search">
+                    <button class="botao_pesquisa" type="submit">Buscar</button>
+                </form>
+            </div>
+        </nav>
+    </div>
     <div class="container">
         <div class="borda_container">
             <div class="subtitulos">
                 <h5 class="fonte_subtitulo" id="subtitulo_nome" scope="col">Nome</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_sobrenome" scope="col">Sobrenome</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_email" scope="col">Email</h5>
-                <h5 class="fonte_subtitulo" id="subtitulo_number" scope="col">Contato</h5>
+                <h5 class="fonte_subtitulo" id="subtitulo_number" scope="col">CPF</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_status" scope="col">Status</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_editar" scope="col">Editar</h5>
                 <h5 class="fonte_subtitulo" id="subtitulo_excluir" scope="col">Excluir</h5>
@@ -176,7 +221,7 @@
                 <div class="info_objeto">{{objeto.nome}}</div>
                 <div class="info_objeto">{{objeto.sobrenome}}</div>
                 <div class="info_objeto">{{objeto.email}}</div>
-                <div class="info_objeto">{{objeto.celular}}</div>
+                <div class="info_objeto">{{objeto.cpf}}</div>
                 <div class="info_objeto">
                     {% if objeto.ativo %}
                     <div class="status_ativo">Ativo</div>
