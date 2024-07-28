@@ -1,64 +1,67 @@
 <style>
-  .navbar {
+  .nav {
     background-color:wheat;
-    color: black;
-    font-weight: bold;
-
+    
     width: 100%; /* Largura total da navbar */
     min-width: 320px; /* Tamanho minimo da Navbar*/
-    padding: 10px 20px; 
-    box-sizing: border-box; 
+    padding: 8px 15px; 
     display: flex;
-    justify-content: space-between; /* Espaça os elementos igualmente */
-    align-items: center; /* Centraliza os itens verticalmente */
-    overflow: hidden; /* Esconde qualquer overflow */
   }
 
+  .nav-item {
+    width: max-content;
+  }
+  #nome_admin {
+    color: rgb(62, 33, 134);
+    font-size:large;
+    font-weight: bold;
+  }
   .navbar-brand {
+    font-size: 20px;
     margin: 0;
   }
-
-  .navbar-toggler {
-    background: none;
-    border: none;
-    color: black;
+  /* Estiliza a palavra dos links do menu */
+  .nav-link {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   }
+
+  .nav-link:hover {
+    color: rgb(14, 0, 124); /* Muda a cor do link ao passar o mouse */
+}
 
 </style>
 
-
-<nav class="navbar">
+<div class="nav">
   <div class="container-fluid">
-
     {% if user.is_authenticated %} <!--Usuario esta logado como admin-->
-    <h1 class="navbar-brand">Aréa do Administrador</h1>
+    <h1 class="navbar-brand">Aréa do Administrador ( <span id="nome_admin">{{user.username}}</span> )</h1> <!-- Exibe o nome do admin que está logado -->
     {% else %} <!--Usuario não esta logado como admin-->
-    <h1 class="navbar-brand">          
-      <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastro</a>
-    </h1>
+    <h1 class="navbar-brand">Aréa do Administrador</h1>
     {% endif %}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav" style="width: max-content;">
+    <div>
+      <ul class="navbar-nav">
         <!-- Se o usuario não estiver logado como administrador, será exibido apenas as opçoes de cadastro e login -->
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'cadastro' %}">Cadastrar</a>
+          <a class="nav-link" aria-current="page" href="{% url 'cadastro' %}">Cadastrar</a>
         </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'exibir' %}">Clientes</a>
+            <a class="nav-link" aria-current="page" href="{% url 'exibir' %}">Clientes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Deslogar</a>
+            <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Deslogar</a>
           </li>
         {% else %}
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Logar</a>
+          <a class="nav-link" aria-current="page" href="{% url 'cadastro' %}">Cadastrar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'login' %}">Logar</a>
         </li>
         {% endif %}
       </ul>
     </div>
-  </div>
-</nav>
+    </div>
+</div>
