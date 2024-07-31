@@ -11,24 +11,6 @@
         background-color: wheat;
     }
 
-    .borda_container {
-        background-color: black;
-        width: auto;
-        /* Largura maxima */
-        max-width: 1200px;
-        /* Tamanho, estilo, cor */
-        border: 7px solid rgb(0, 0, 0);
-        border-radius: 8px;
-    }
-
-    .container {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
-        margin: 0 auto;
-        width: 100%;
-    }
-
     #titulo_tabela {
         text-align: center;
     }
@@ -70,15 +52,29 @@
         /* Muda a cor do link ao passar o mouse */
     }
 
-    #div_busca_mensagem {
+    .div_busca_mensagem {
         text-align: left;
         margin: 0;
         padding-top: 8px;
+        /* background-color: aqua; Teste */
     }
 
-    #busca_mensagem {
-        font-weight: bold;
-        color: rgb(178, 73, 73);
+    .container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .borda_container {
+        background-color: black;
+        width: auto;
+        /* Largura maxima */
+        max-width: 1200px;
+        /* Tamanho, estilo, cor */
+        border: 7px solid rgb(0, 0, 0);
+        border-radius: 8px;
     }
 
     /* Div dos subtitulos */
@@ -178,14 +174,12 @@
     /* Mensangens Bem Sucedidas */
     .messages.success {
         font-weight: bold;
-        background-color: #d4edda;
         color: #155724;
     }
 
     /* Mensangens Mal Sucedidas */
     .messages.error {
         font-weight: bold;
-        background-color: #f8d7da;
         color: rgb(178, 73, 73);
     }
 </style>
@@ -218,10 +212,11 @@
         </nav>
         <!-- Mensagem da função 'buscar' em views -->
         {% if messages %}
-        <div id="div_busca_mensagem">
+        <div class="div_busca_mensagem">
             {% for message in messages %}
             {% if 'buscar' in message.extra_tags %}
-            <span id="busca_mensagem">{{ message }}</span>
+            <!-- Ao colocar message.tags na linha abaixo, a mensagem não fica alinhada ao lado do botão de input da maneira correta, verificar! -->
+            <span class="messages {{ message.tags }}">{{ message }}</span>
             {% endif %}
             {% endfor %}
         </div>
