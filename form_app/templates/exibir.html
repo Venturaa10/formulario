@@ -46,7 +46,7 @@
         /* Remove as margens */
     }
 
-    .form-control{
+    .form-control {
         color: rgb(245, 245, 245);
         background-color: rgb(227, 198, 162);
     }
@@ -57,7 +57,7 @@
         font-size: 15px;
         font-weight: bold;
     }
-    
+
     .botao_pesquisa {
         background-color: rgb(136, 127, 108);
         color: rgb(34, 48, 60);
@@ -66,17 +66,21 @@
     }
 
     .botao_pesquisa:hover {
-        color: whitesmoke; /* Muda a cor do link ao passar o mouse */
+        color: whitesmoke;
+        /* Muda a cor do link ao passar o mouse */
     }
+
     #div_busca_mensagem {
         text-align: left;
         margin: 0;
         padding-top: 8px;
     }
+
     #busca_mensagem {
         font-weight: bold;
         color: rgb(178, 73, 73);
     }
+
     /* Div dos subtitulos */
     .subtitulos {
         color: whitesmoke;
@@ -204,22 +208,24 @@
     <div class="buscar">
         <nav class="barra_pesquisa">
             <div class="container-fluid">
-                <form action="{% url 'buscar' %}" name="buscar" class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Buscar por CPF" aria-label="Search">
+                <form action="{% url 'buscar' %}" method="POST" class="d-flex" role="search">
+                    <!-- Chave de segurança -->
+                    {% csrf_token %}
+                    <input class="form-control me-2" type="search" name="cpf" placeholder="Buscar por CPF" aria-label="Search">
                     <button class="botao_pesquisa" type="submit">Buscar</button>
                 </form>
             </div>
         </nav>
         <!-- Mensagem da função 'buscar' em views -->
-                {% if messages %}
-            <div id="div_busca_mensagem">
-                {% for message in messages %}
-                {% if 'buscar' in message.extra_tags %}
-                <span id="busca_mensagem">{{ message }}</span>
-                {% endif %}
-                {% endfor %}
-            </div>
+        {% if messages %}
+        <div id="div_busca_mensagem">
+            {% for message in messages %}
+            {% if 'buscar' in message.extra_tags %}
+            <span id="busca_mensagem">{{ message }}</span>
             {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
     <div class="container">
         <div class="borda_container">
