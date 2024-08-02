@@ -80,11 +80,13 @@ def cadastro(request):
 
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
-    '''Exibe os clientes cadastrados no sistema
+    '''
+    Exibe os clientes cadastrados no sistema
     Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
     '''
+    
     buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazenando o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
-    clientes = Cliente.objects.all()  # Recupera todos os clientes inicialmente
+    clientes = Cliente.objects.all().order_by('nome')  # Recupera todos os clientes e ordena com base no nome 
 
     if buscar_cpf: # Verifica se contém um valor
         clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf)# Filtra clientes pelo CPF
@@ -97,7 +99,7 @@ def exibir(request):
 
     # Problemas com o else abaixo, mensagem fica exibindo sem mesmo antes clicar no botão
     # else:
-    #     clientes = Cliente.objects.all()# Retorna todos os clientes em caso de cpf não mencionado
+    #     clientes = Cliente.objects.all().order_by('nome')# Retorna todos os clientes em caso de cpf não mencionado
     #     messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
 
     # Paginação dos clientes
