@@ -1,10 +1,10 @@
 # Nesse arquivo é destinado a fazer modificações em admin
 
 from django.db import models
-from datetime import datetime # Importação para configurar e trabalhar com data e hora
-from django.core.exceptions import ValidationError # Importação para fazer validações
+from datetime import datetime # Import para configurar e trabalhar com data e hora
+from django.core.exceptions import ValidationError # Import para fazer validações
 # django.core.validator é recomendado para trabalhar com validações,como expressoes regulares
-from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator, EmailValidator # Importação para validar valores 
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator, EmailValidator # Import para validar valores 
 
 class Cliente(models.Model):
     OPCAO_SEXO = [

@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from form_app.forms import ClienteForm, LoginForm
 from django.contrib.auth.models import User
 from form_app.models import Cliente
-from django.contrib import auth # Importando o modulo para realizar a autenticação
-from django.contrib import messages # Importando o modulo responsavél por retornar mensagens ao usuario
+from django.contrib import auth # Importa o modulo para realizar a autenticação
+from django.contrib import messages # Importa o modulo responsavél por retornar mensagens ao usuario
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator # Paginação
+
 
 def login(request): 
     '''Função reponsavel por pedir o login ao usuario para liberar o acesso as informações dos clientes cadastrados'''
@@ -51,7 +53,7 @@ def cadastro(request):
             email = form.cleaned_data['email']
             celular = form.cleaned_data['celular']
 
-            # Verificando se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE, evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
+            # Verifica se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE, evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
             # A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
 
             if Cliente.objects.filter(email=email).exists():
@@ -71,7 +73,6 @@ def cadastro(request):
             messages.add_message(request, messages.ERROR,f'Erro ao cadastrar, verifique as informações fornecidas!', extra_tags='cadastro')
 
     else:
-        #Caso ocorra o envio de alguma informação invalida, não será feita a criação do Cliente, preciso adicionar uma mensagem indicando o erro aqui
         form = ClienteForm()
 
     return render(request,'cadastro.html', {'form': form})
@@ -79,14 +80,11 @@ def cadastro(request):
 
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
-    '''Exibindo os clientes cadastrados no sistema'''
-    cliente = Cliente.objects.all()
-    return render(request, 'exibir.html', {'cliente': cliente})
-
-@login_required(login_url='login') 
-def buscar(request):
-    buscar_cpf = request.POST.get('cpf', '').strip()# Recebendo e armazenando o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
-    print(f"Valor do CPF recebido: '{buscar_cpf}'")# Teste
+    '''Exibe os clientes cadastrados no sistema
+    Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
+    '''
+    buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazenando o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
+    clientes = Cliente.objects.all()  # Recupera todos os clientes inicialmente
 
     if buscar_cpf: # Verifica se contém um valor
         clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf)# Filtra clientes pelo CPF
@@ -97,15 +95,22 @@ def buscar(request):
             clientes = Cliente.objects.all()# Retorna todos os clientes em caso de não localizado
             messages.add_message(request, messages.ERROR, 'Cliente não localizado no sistema!', extra_tags='buscar')
 
-    else:
-        clientes = Cliente.objects.all()# Retorna todos os clientes em caso de cpf não mencionado
-        messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
-        
-    return render(request, 'exibir.html', {'cliente': clientes})
+    # Problemas com o else abaixo, mensagem fica exibindo sem mesmo antes clicar no botão
+    # else:
+    #     clientes = Cliente.objects.all()# Retorna todos os clientes em caso de cpf não mencionado
+    #     messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
+
+    # Paginação dos clientes
+    paginator = Paginator(clientes, 8) # Cliente por pagina
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'exibir.html', {'page_obj': page_obj, 'query': buscar_cpf})
+
 
 @login_required(login_url='login')
 def editar(request, cliente_id):
-    cliente = Cliente.objects.get(id=cliente_id)# Armazenando a id do cliente
+    cliente = Cliente.objects.get(id=cliente_id)# Armazena a id do cliente
     dados = ClienteForm(instance=cliente)
     if request.method == 'POST':
         dados = ClienteForm(request.POST, instance=cliente)
@@ -119,12 +124,14 @@ def editar(request, cliente_id):
 
     return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
 
+
 @login_required(login_url='login')
 def excluir(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
-    cliente.delete() # Deletando o objeto do banco de dados
+    cliente.delete() # Deleta o objeto do banco de dados
     messages.add_message(request, messages.ERROR,'Cliente Excluído do Sistema!', extra_tags='excluir')
     return redirect('exibir')
+
 
 def logout(request):
     auth.logout(request)
