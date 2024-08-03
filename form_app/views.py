@@ -85,19 +85,20 @@ def exibir(request):
     Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
     '''
     
-    buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazenando o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
-    clientes = Cliente.objects.all().order_by('nome')  # Recupera todos os clientes e ordena com base no nome 
+    buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
+    clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
 
-    if buscar_cpf: # Verifica se contém um valor
+    if len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
         clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf)# Filtra clientes pelo CPF
 
         if clientes.exists():
             messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
+        
         else:
             clientes = Cliente.objects.all()# Retorna todos os clientes em caso de não localizado
             messages.add_message(request, messages.ERROR, 'Cliente não localizado no sistema!', extra_tags='buscar')
 
-    # Problemas com o else abaixo, mensagem fica exibindo sem mesmo antes clicar no botão
+    # Problemas com o else abaixo, mensagem fica exibindo antes mesmo de clicar no botão
     # else:
     #     clientes = Cliente.objects.all().order_by('nome')# Retorna todos os clientes em caso de cpf não mencionado
     #     messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
