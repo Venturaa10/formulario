@@ -52,7 +52,7 @@
         /* Muda a cor do link ao passar o mouse */
     }
 
-    .div_busca_mensagem {
+    .div_mensagem {
         text-align: left;
         margin: 0;
         padding-top: 8px;
@@ -211,12 +211,16 @@
                 </form>
             </div>
         </nav>
-        <!-- Mensagem da função 'buscar' em views -->
-        {% if messages %}
-        <div class="div_busca_mensagem">
+        <!-- Exibe as mensagens e estiliza de acordo com a sua extra_tags correspondente em cada views-->
+        {% if messages %} <!-- Mensagem da função 'buscar' em views -->
+        <div class="div_mensagem">
             {% for message in messages %}
             {% if 'buscar' in message.extra_tags %}
             <!-- Ao colocar message.tags na linha abaixo, a mensagem não fica alinhada ao lado do botão de input da maneira correta, verificar! -->
+            <span class="messages {{ message.tags }}">{{ message }}</span>
+            {% elif 'editar' in message.extra_tags %}
+            <span class="messages {{ message.tags }}">{{ message }}</span>
+            {% elif 'excluir' in message.extra_tags %}
             <span class="messages {{ message.tags }}">{{ message }}</span>
             {% endif %}
             {% endfor %}
@@ -312,18 +316,5 @@
         </div>
     </div>
     <!-- Fim container -->
-    <!-- Exibe as mensagens e estiliza de acordo com a sua extra_tags correspondente em cada views-->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        {% if 'editar' in message.extra_tags %}
-        <span class="messages {{ message.tags }}">{{ message }}</span>
-        {% endif %}
-        {% if 'excluir' in message.extra_tags %}
-        <span class="messages {{ message.tags }}">{{ message }}</span>
-        {% endif %}
-        {% endfor %}
-    </div>
-    {% endif %}
 </body>
 {% endblock %}

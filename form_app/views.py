@@ -88,7 +88,7 @@ def exibir(request):
     buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
     clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
 
-    if len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
+    if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
         clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf)# Filtra clientes pelo CPF
 
         if clientes.exists():
