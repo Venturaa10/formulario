@@ -157,17 +157,57 @@
     }
 
     #botao_editar {
-        color: goldenrod;
+        color: rgb(144, 118, 50);
     }
 
     #botao_excluir {
-        color: rgb(181, 70, 70);
+        color: rgb(149, 65, 65);
+    }
+    .pagination {
+        display: flex; /* Alinha os itens em uma linha */
+        padding: 0; /* Remove o padding padrão */
+    }
+
+    .page-item {
+        /* Espaçamento entre os botões */
+        margin: 0 2px;
+    }
+
+    /* Estiliza os botões independente do status de ativo ou desativado */
+    .page-link {
+        display: block; /* Torna o link um bloco */
+        padding: 10px 15px; /* Espaçamento top e bottom, left e right*/
+        color: #ffffff;
+        border: 2px solid #ffffff;
+        border-radius: 5px; 
+        background-color: rgb(170, 137, 113); 
+    }
+    
+
+    /* Estiliza quando passa o mouse no botão */
+    .page-link:hover {
+        background-color: #59797b; 
+        color:whitesmoke ; 
+    }
+
+    /* Estiliza o botão enquanto ativado */
+    .page-item.active .page-link {
+        background-color: #000000; 
+        color:whitesmoke ; 
+        border-color:rgb(205, 205, 205) ; 
+    }
+
+    /* Estiliza botão enquando desativado */
+    .page-item.disabled .page-link {
+        color: #232323; 
+        background-color: rgb(170, 137, 113); 
+        pointer-events: none; 
+        border-color: #4e3c34; 
     }
 
     /* Mensangens De Aviso*/
     .messages.info {
         font-weight: bold;
-        /* background-color: #ffd900; */
         color: #8e7926;
     }
 
@@ -215,8 +255,8 @@
         {% if messages %} <!-- Mensagem da função 'buscar' em views -->
         <div class="div_mensagem">
             {% for message in messages %}
+            <!-- Ao colocar message.tags na linha abaixo, a mensagem relacionada a 'buscar' não fica alinhada ao lado do botão de input da maneira correta, verificar! -->
             {% if 'buscar' in message.extra_tags %}
-            <!-- Ao colocar message.tags na linha abaixo, a mensagem não fica alinhada ao lado do botão de input da maneira correta, verificar! -->
             <span class="messages {{ message.tags }}">{{ message }}</span>
             {% elif 'editar' in message.extra_tags %}
             <span class="messages {{ message.tags }}">{{ message }}</span>

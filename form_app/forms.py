@@ -8,7 +8,7 @@ class LoginForm(forms.Form):
         required=True, # Torna o preenchimento desse campo obrigatorio
         max_length= 50,
         widget=forms.TextInput(
-            # Estilizando os labels do HTML através do proprio atributo do objeto
+            # Estiliza os labels do HTML através do proprio atributo do objeto
             attrs={
                 'class': 'form-control', 
                 'placeholder': 'Nome Usuario'
@@ -97,7 +97,4 @@ class ClienteForm(forms.ModelForm):
             raise forms.ValidationError('Selecione um estado válido!')
                 
         return estado
-    
-    # def clean_cpf(self):
-        
             
