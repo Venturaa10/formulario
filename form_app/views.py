@@ -87,21 +87,20 @@ def exibir(request):
     
     buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
     clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
+    
+    if request.method == 'POST': 
+        if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
+            clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf).order_by('nome') # Filtra clientes pelo CPF
+            if clientes.exists():
+                messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
+            
+            else:
+                clientes = Cliente.objects.all().order_by('nome') # Retorna todos os clientes em caso de não localizado
+                messages.add_message(request, messages.ERROR, 'Cliente não localizado no sistema!', extra_tags='buscar')
 
-    if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
-        clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf)# Filtra clientes pelo CPF
-
-        if clientes.exists():
-            messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
-        
         else:
-            clientes = Cliente.objects.all()# Retorna todos os clientes em caso de não localizado
-            messages.add_message(request, messages.ERROR, 'Cliente não localizado no sistema!', extra_tags='buscar')
-
-    # Problemas com o else abaixo, mensagem fica exibindo antes mesmo de clicar no botão
-    # else:
-    #     clientes = Cliente.objects.all().order_by('nome')# Retorna todos os clientes em caso de cpf não mencionado
-    #     messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
+            clientes = Cliente.objects.all().order_by('nome') # Retorna todos os clientes em caso de cpf não mencionado, mas botão para buscar interagido
+            messages.add_message(request, messages.INFO, 'Informe o CPF do cliente!', extra_tags='buscar')
 
     # Paginação dos clientes
     paginator = Paginator(clientes, 8) # Cliente por pagina
@@ -122,7 +121,7 @@ def editar(request, cliente_id):
             nome_form = dados.cleaned_data['nome']
 
             dados.save()
-            messages.add_message(request, messages.INFO, f'Dados de {nome_form} Atualizados!', extra_tags='editar')
+            messages.add_message(request, messages.INFO, f'Dados de "{nome_form}" Atualizados!', extra_tags='editar')
             return redirect('exibir')
 
     return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
