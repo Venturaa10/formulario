@@ -81,12 +81,13 @@ def cadastro(request):
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
     '''
-    Exibe os clientes cadastrados no sistema
+    Exibe e o número de clientes cadastrados no sistema
     Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
     '''
     
     buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
     clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
+    total_clientes = clientes.count() # Total de clientes cadastrados
 
     if request.method == 'POST': 
         if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
@@ -106,7 +107,6 @@ def exibir(request):
     paginator = Paginator(clientes, 8) # Cliente por pagina
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    total_clientes = clientes.count() # Total de clientes cadastrados
 
     return render(request, 'exibir.html', {'page_obj': page_obj, 'query': buscar_cpf, 'total_clientes': total_clientes})
 

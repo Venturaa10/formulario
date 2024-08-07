@@ -1,8 +1,13 @@
 <style>
   .nav {
     background-color:wheat;
-    
-    width: 100%; /* Largura total da navbar */
+    /* Fixa e posiciona o menu no topo à esquerda, sem que interfira ou sobreponha os containers */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: max-content;
+     
     min-width: 320px; /* Tamanho minimo da Navbar*/
     padding: 8px 15px; 
     display: flex;
