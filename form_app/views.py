@@ -11,7 +11,7 @@ from django.core.paginator import Paginator # Paginação
 def login(request): 
     '''Função reponsavel por pedir o login ao usuario para liberar o acesso as informações dos clientes cadastrados'''
     form = LoginForm()
-    if request.method == 'POST':
+    if request.method == 'POST': # Condição so será executada se for requisitado, ou seja, botão interagido 
         form = LoginForm(request.POST) # Recria o formulario com os dados enviados pelo usuario, por isso é utilizado o "request.POST" como parametro
 
         if form.is_valid():
@@ -43,7 +43,7 @@ def login(request):
 
 def cadastro(request):
     form = ClienteForm()
-    
+
     if request.method == 'POST':
         form = ClienteForm(request.POST)
 
@@ -87,7 +87,7 @@ def exibir(request):
     
     buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
     clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
-    
+
     if request.method == 'POST': 
         if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
             clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf).order_by('nome') # Filtra clientes pelo CPF
@@ -106,8 +106,9 @@ def exibir(request):
     paginator = Paginator(clientes, 8) # Cliente por pagina
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    total_clientes = clientes.count() # Total de clientes cadastrados
 
-    return render(request, 'exibir.html', {'page_obj': page_obj, 'query': buscar_cpf})
+    return render(request, 'exibir.html', {'page_obj': page_obj, 'query': buscar_cpf, 'total_clientes': total_clientes})
 
 
 @login_required(login_url='login')

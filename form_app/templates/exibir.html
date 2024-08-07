@@ -168,9 +168,25 @@
         padding: 0; /* Remove o padding padrão */
     }
 
+    /* Container da paginação */
+    .paginacao-container {
+        display: flex;
+        justify-content: space-between; 
+        align-items: center;
+        padding: 0 15px; 
+    }
+
     .page-item {
         /* Espaçamento entre os botões */
         margin: 0 2px;
+    }
+
+    /* Estiliza a mensagem onde exibe a quantidade total de clientes cadastrados */
+    .total-clientes {
+        margin-left: auto; 
+        font-weight: bold;
+        font-size: 18px;
+        color: rgb(252, 252, 252);
     }
 
     /* Estiliza os botões independente do status de ativo ou desativado */
@@ -303,7 +319,7 @@
             {% endfor %}
 
             <!-- Inicio Paginação -->
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" class="paginacao-container">
                 <ul class="pagination">
                     {% if page_obj.has_previous %} <!-- Tem pagina anterior, botões linkados -->
                     <li class="page-item">
@@ -351,6 +367,7 @@
                     </li>
                     {% endif %}
                 </ul>
+                <span class="total-clientes">Total de Clientes: {{ total_clientes }}</span>
             </nav>
             <!-- Fim paginação -->
         </div>
