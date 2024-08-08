@@ -263,8 +263,7 @@
                 <form action="{% url 'exibir' %}" method="POST" class="d-flex" role="search">
                                         <!-- Chave de segurança -->
                                         {% csrf_token %}
-                    <input class="form-control me-2" type="search" name="cpf" placeholder="Buscar por CPF"
-                        aria-label="Search">
+                    <input class="form-control me-2" type="search" name="cpf" placeholder="Buscar por CPF"aria-label="Search">
                     <button class="botao_pesquisa" type="submit">Buscar</button>
                 </form>
             </div>
