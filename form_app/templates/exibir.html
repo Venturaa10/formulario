@@ -243,17 +243,6 @@
 </style>
 
 <body class="corpo">
-    <div>
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            {% if 'login' in message.extra_tags %}
-            <span class="messages {{ message.tags }}">{{ message }}</span>
-            {% endif %}
-            {% endfor %}
-        </div>
-        {% endif %}
-    </div>
     <div id="titulo_tabela">
         <h2>Clientes Cadastrados</h2>
     </div>

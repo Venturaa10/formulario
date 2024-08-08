@@ -1,18 +1,18 @@
 <style>
   .nav {
-    background-color:wheat;
+    background-color: wheat;
     /* Fixa e posiciona o menu no topo à esquerda, sem que interfira ou sobreponha os containers */
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
     width: max-content;
-     
+
     min-width: 320px;
     padding: 8px 15px;
     display: flex;
     align-items: center;
-    height: 0px; 
+    height: 0px;
   }
 
   .navbar-nav {
@@ -23,15 +23,18 @@
     max-width: max-content;
     margin-right: 10px;
   }
+
   #nome_admin {
     color: rgb(114, 73, 47);
-    font-size:large;
+    font-size: large;
     font-weight: bold;
   }
+
   .navbar-brand {
     font-size: 20px;
     margin: 0;
   }
+
   /* Estiliza a palavra dos links do menu */
   .nav-link {
     font-size: 15px;
@@ -40,15 +43,24 @@
   }
 
   .nav-link:hover {
-    color: rgb(14, 0, 124); /* Muda a cor do link ao passar o mouse */
-}
+    /* Muda a cor do link ao passar o mouse */
+    color: rgb(14, 0, 124);
+  }
 
+  /* Mensangens De Aviso*/
+  .messages.info {
+    font-weight: bold;
+    font-size: 17px;
+    color: gold;
+    margin: 2px 0;
+  }
 </style>
 
 <div class="nav">
   <div class="container-fluid">
     {% if user.is_authenticated %} <!--Usuario esta logado como admin-->
-    <h1 class="navbar-brand">Aréa do Administrador ( <span id="nome_admin">{{user.username}}</span> )</h1> <!-- Exibe o nome do admin que está logado -->
+    <!-- Exibe o nome do admin que está logado -->
+    <h1 class="navbar-brand">Aréa do Administrador ( <span id="nome_admin">{{user.username}}</span> )</h1>
     {% else %} <!--Usuario não esta logado como admin-->
     <h1 class="navbar-brand">Sistema</h1>
     {% endif %}
@@ -59,18 +71,27 @@
         </li>
         <!-- Se o usuario não estiver logado como administrador, será exibido apenas as opçoes de cadastro e login -->
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'exibir' %}">Clientes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Deslogar</a>
-          </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'exibir' %}">Clientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="{% url 'logout' %}">Deslogar</a>
+        </li>
         {% else %}
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="{% url 'login' %}">Logar</a>
         </li>
         {% endif %}
       </ul>
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        {% if 'login' in message.extra_tags %}
+        <span class="messages {{ message.tags }}">{{ message }}</span>
+        {% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
-    </div>
+  </div>
 </div>

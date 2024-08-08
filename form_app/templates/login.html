@@ -84,16 +84,6 @@
                     {{ field }}
                 </div>
                 {% endfor %}
-    <!-- Exibe as mensagens e estiliza de acordo com a sua extra_tags correspondente em cada views-->
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        {% if 'login' in message.extra_tags %}
-        <span class="messages {{ message.tags }}">{{ message }}</span>
-        {% endif %}
-        {% endfor %}
-    </div>
-    {% endif %}
             <div>
                 <button class="botao" type="submit">Entrar</button>
             </div>
