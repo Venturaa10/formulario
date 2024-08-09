@@ -49,13 +49,6 @@
         border-radius: 5px;
     }
 
-
-    /* Mensangens Bem Sucedidas */
-    .messages.success {
-        font-weight: bold;
-        color: #155724;
-    }
-
     /* Mensangens Mal Sucedidas */
     .messages.error {
         font-weight: bold;
@@ -84,6 +77,16 @@
                     {{ field }}
                 </div>
                 {% endfor %}
+                {% if messages %}
+                <div>
+                  {% for message in messages %}
+                  <!-- Aqui será exibida a mensagem da views login, nomeada na "extra_tags" como "error_login", evitando conflito entre mensagens de "messages"-->
+                  {% if 'error_login' in message.extra_tags %} 
+                  <span class="messages {{ message.tags }}">{{ message }}</span>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {% endif %}
             <div>
                 <button class="botao" type="submit">Entrar</button>
             </div>

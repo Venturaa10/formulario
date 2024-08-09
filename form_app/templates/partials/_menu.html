@@ -86,7 +86,7 @@
       {% if messages %}
       <div>
         {% for message in messages %}
-        {% if 'login' in message.extra_tags %}
+        {% if 'info_login' in message.extra_tags %}
         <span class="messages {{ message.tags }}">{{ message }}</span>
         {% endif %}
         {% endfor %}

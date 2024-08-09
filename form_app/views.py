@@ -29,11 +29,11 @@ def login(request):
             if usuario is not None:
                 # Se o usuário for autenticado com sucesso (usuario não é "None"), realiza o login e redireciona para o template exibir
                 auth.login(request, usuario)
-                messages.add_message(request, messages.INFO,f'{nome} logado com sucesso!', extra_tags='login') 
+                messages.add_message(request, messages.INFO,f'{nome} logado com sucesso!', extra_tags='info_login') 
                 return redirect('exibir')
             else:
                 # Se a autenticação falhar, exibe uma mensagem de erro e redireciona de volta para a página de login
-                messages.add_message(request, messages.ERROR, 'Erro ao efetuar login!', extra_tags='login')
+                messages.add_message(request, messages.ERROR, 'Erro ao efetuar login!', extra_tags='error_login')
                 return redirect('login')
         else:
            pass
