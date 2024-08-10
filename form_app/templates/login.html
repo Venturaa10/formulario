@@ -68,7 +68,7 @@
 
 <body class="corpo">
     <div class="container">
-        <h3>Area de Administrador</h3>
+        <h3>Área de Administrador</h3>
         <form action="{% url 'login' %}" method="POST">
             {% csrf_token %}
                 {% for field in form.visible_fields %}

@@ -123,10 +123,9 @@
     }
 </style>
 
-<!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
-
 <body class="corpo">
     <div class="container">
+<!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
             <!-- Chave de segurança -->
             {% csrf_token %}

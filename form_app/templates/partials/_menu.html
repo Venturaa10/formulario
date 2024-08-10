@@ -60,7 +60,7 @@
   <div class="container-fluid">
     {% if user.is_authenticated %} <!--Usuario esta logado como admin-->
     <!-- Exibe o nome do admin que está logado -->
-    <h1 class="navbar-brand">Aréa do Administrador ( <span id="nome_admin">{{user.username}}</span> )</h1>
+    <h1 class="navbar-brand">Área do Administrador ( <span id="nome_admin">{{user.username}}</span> )</h1>
     {% else %} <!--Usuario não esta logado como admin-->
     <h1 class="navbar-brand">Sistema</h1>
     {% endif %}

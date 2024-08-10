@@ -122,7 +122,7 @@ def editar(request, cliente_id):
             nome_form = dados.cleaned_data['nome']
 
             dados.save()
-            messages.add_message(request, messages.INFO, f'Dados de "{nome_form}" Atualizados!', extra_tags='editar')
+            messages.add_message(request, messages.INFO, f'Dados de "{nome_form}" atualizados!', extra_tags='editar')
             return redirect('exibir')
 
     return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
@@ -131,8 +131,11 @@ def editar(request, cliente_id):
 @login_required(login_url='login')
 def excluir(request, cliente_id):
     cliente = Cliente.objects.get(id=cliente_id)
+    nome_cliente = cliente.nome # Armazena nome do cliente que foi excluído
+    cpf_cliente = cliente.cpf
     cliente.delete() # Deleta o objeto do banco de dados
-    messages.add_message(request, messages.ERROR,'Cliente Excluído do Sistema!', extra_tags='excluir')
+    
+    messages.add_message(request, messages.ERROR,f'Cliente "{nome_cliente}", cujo cpf é "{cpf_cliente}", foi excluído do sistema!', extra_tags='excluir')
     return redirect('exibir')
 
 
