@@ -40,7 +40,7 @@ class ClienteForm(forms.ModelForm):
         -> "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
         -> Parametro 'disabled': Faz com que não seja possivel alterar o status de "ativo" diretamente, ou seja, a alteração só pode ser feito no banco de dados
         '''
-        exclude = ['data_criacao','ativo']
+        exclude = ['data_criacao','status']
 
         labels = {
             'cpf':'CPF', 'comentario': 'Observação'

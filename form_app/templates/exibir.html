@@ -293,7 +293,7 @@
                 <div class="info_objeto">{{objeto.email}}</div>
                 <div class="info_objeto">{{objeto.cpf}}</div>
                 <div class="info_objeto">
-                    {% if objeto.ativo %}
+                    {% if objeto.status %}
                     <div class="status_ativo">Ativo</div>
                     {% else %}
                     <div class="status_inativo">Inativo</div>
@@ -329,14 +329,25 @@
                     <li class="page-item disabled">
                         <span class="page-link" aria-label="Previous">&laquo;</span>
                     </li>
-                    {% endif %} <!-- Tem pagina anterior -->
-                    {% for i in page_obj.paginator.page_range %} 
-                    {% if page_obj.number == i %} <!-- Se "i" é o número da página atual, marca como ativo -->
-                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
-                    {% else %} <!-- Se não, exibe um link para a página "i" -->
-                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %} <!-- Tem pagina anterior --> 
+                    <!-- Verifica se há mais de uma pagina para ser exibida -->
+                    {% if page_obj.paginator.num_pages > 1 %}
+                    <!-- Se a pagina atual for maior que 1, siginifica que existe uma pagina anterior, então a pagina anterior é linkada e exibida -->
+                    {% if page_obj.number > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.number|add:"-1" }}">{{ page_obj.number|add:"-1" }}</a>
+                        </li>
                     {% endif %}
-                    {% endfor %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_obj.number }}</span>
+                    </li>
+                    <!-- Se a pagina atual for menor que o número total de paginas, exibe um link para a proxima pagina -->
+                    {% if page_obj.number < page_obj.paginator.num_pages %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.number|add:"1" }}">{{ page_obj.number|add:"1" }}</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
                     {% if page_obj.has_next %} <!-- Existe paginas a serem exibidas, linka os botões proxima e ultima -->
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">

@@ -56,7 +56,7 @@ class Cliente(models.Model):
     celular = models.CharField(max_length=12,unique=True,null=False, blank=False, help_text='11 90000-0000', validators=[RegexValidator(r'^[0-9]{2,3} ?[0-9]{5}-?[0-9]{4}$', 'O "número" fornecido é inválido!')])
     comentario = models.TextField(max_length=250, null=True, blank=True, help_text='Uma sugestão aqui :)')
     data_criacao = models.DateTimeField(default=datetime.now) # Atributo que exibe a data e a hora de criação do cliente
-    ativo = models.BooleanField(default=True) # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
+    status = models.BooleanField(default=True) # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
     
 
     def clean(self):
