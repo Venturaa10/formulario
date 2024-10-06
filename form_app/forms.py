@@ -1,6 +1,8 @@
 # Arquivo responsavél por receber as informações do usuario
 from django import forms 
 from form_app.models import Cliente
+from validate_docbr import CPF, CNPJ
+
 
 class LoginForm(forms.Form):
     nome_login=forms.CharField(
@@ -98,3 +100,19 @@ class ClienteForm(forms.ModelForm):
                 
         return estado
             
+    def clean_cpf(self):
+        '''
+        Valida o CPF fornecido de acordo com o sistema de documentação brasileiro.
+        Garante que o CPF tenha 11 dígitos e seja válido.
+        '''
+        cpf = self.cleaned_data.get('cpf')
+
+        if len(cpf) == 11:
+            validador = CPF()
+            if validador.validate(cpf):
+                return cpf
+            else:
+                raise forms.ValidationError('CPF Inválido!')
+
+        else:
+            raise forms.ValidationError('O CPF deve conter exatamente 11 dígitos numéricos.')
