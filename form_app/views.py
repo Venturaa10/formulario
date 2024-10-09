@@ -6,6 +6,7 @@ from django.contrib import auth # Importa o modulo para realizar a autenticaçã
 from django.contrib import messages # Importa o modulo responsavél por retornar mensagens ao usuario
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator # Paginação
+from validate_docbr import CPF
 
 
 def login(request): 

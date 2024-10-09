@@ -5,6 +5,8 @@ from datetime import datetime # Import para configurar e trabalhar com data e ho
 from django.core.exceptions import ValidationError # Import para fazer validações
 # django.core.validator é recomendado para trabalhar com validações,como expressoes regulares
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator, EmailValidator # Import para validar valores 
+from validate_docbr import CPF, CNPJ
+
 
 class Cliente(models.Model):
     OPCAO_SEXO = [
@@ -67,7 +69,8 @@ class Cliente(models.Model):
         self.nome = self.nome
         self.sobrenome = self.sobrenome
         self.celular = self.celular.replace(' ','') # Removendo espaços da string
-    
+        self.cpf = self.cpf
+
         super().clean()
         if not all(c.isalpha() or c.isspace() for c in self.nome):
             raise ValidationError('O campo "Nome" deve incluir apenas letras e espaços!')
@@ -82,5 +85,15 @@ class Cliente(models.Model):
             # Nesse caso, caso o valor do atributo seja igual a 'E', isso significa que o cliente não informou um estado, retornando uma mensagem de erro e solicitando que o cliente selecione um estado válido.
             raise ValidationError('Selecione um estado válido!')
         
+        if self.cpf:
+            ''' Validaa CPF '''
+            validador = CPF()
+
+            if validador.validate(self.cpf):
+                return self.cpf
+            
+            else:
+                raise ValidationError('CPF inválido!')
+
     def __str__(self):
         return f'Ficha de Cadastro do(a) Cliente: {self.nome} {self.sobrenome}'
