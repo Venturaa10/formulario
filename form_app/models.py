@@ -59,7 +59,7 @@ class Cliente(models.Model):
     comentario = models.TextField(max_length=250, null=True, blank=True, help_text='Uma sugestão aqui :)')
     data_criacao = models.DateTimeField(default=datetime.now) # Atributo que exibe a data e a hora de criação do cliente
     status = models.BooleanField(default=True) # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
-    
+
 
     def clean(self):
         '''
@@ -70,7 +70,7 @@ class Cliente(models.Model):
         self.sobrenome = self.sobrenome
         self.celular = self.celular.replace(' ','') # Removendo espaços da string
         self.cpf = self.cpf
-
+    
         super().clean()
         if not all(c.isalpha() or c.isspace() for c in self.nome):
             raise ValidationError('O campo "Nome" deve incluir apenas letras e espaços!')
@@ -86,7 +86,7 @@ class Cliente(models.Model):
             raise ValidationError('Selecione um estado válido!')
         
         if self.cpf:
-            ''' Validaa CPF '''
+            ''' Valida CPF '''
             validador = CPF()
 
             if validador.validate(self.cpf):
@@ -95,5 +95,11 @@ class Cliente(models.Model):
             else:
                 raise ValidationError('CPF inválido!')
 
+    @property
+    def cpf_formatado(self):
+        ''' Formata o CPF para exibição '''
+        return CPF().mask(self.cpf)   
+        
+
     def __str__(self):
-        return f'Ficha de Cadastro do(a) Cliente: {self.nome} {self.sobrenome}'
+        return f'Ficha de Cadastro do(a) Cliente: {self.nome} {self.sobrenome} | CPF: {self.cpf_formatado}'

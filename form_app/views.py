@@ -7,7 +7,8 @@ from django.contrib import messages # Importa o modulo responsavél por retornar
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator # Paginação
 import re
-
+from form_app.serializers import ClienteSerializer
+from rest_framework import viewsets
 
 
 def login(request): 
@@ -94,9 +95,9 @@ def exibir(request):
     buscar_cpf = re.sub(r'[^a-zA-Z0-9]', '', limpa_cpf_busca) 
     clientes = Cliente.objects.all().order_by('nome') 
     total_clientes = clientes.count() 
-    
+
     if request.method == 'POST': 
-        if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
+        if buscar_cpf: 
             clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf).order_by('nome') # Filtra clientes pelo CPF
             if clientes.exists():
                 messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
@@ -150,3 +151,7 @@ def logout(request):
     messages.add_message(request, messages.SUCCESS,'Logout efetuado com sucesso', extra_tags='logout') 
     return redirect('login')
 
+
+class ClienteViewSet(viewsets.ModelViewSet):
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
