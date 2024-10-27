@@ -6,7 +6,8 @@ from django.contrib import auth # Importa o modulo para realizar a autenticaçã
 from django.contrib import messages # Importa o modulo responsavél por retornar mensagens ao usuario
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator # Paginação
-from validate_docbr import CPF
+import re
+
 
 
 def login(request): 
@@ -82,14 +83,18 @@ def cadastro(request):
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
     '''
-    Exibe e o número de clientes cadastrados no sistema
-    Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
+    --> Exibe e o número de clientes cadastrados no sistema
+    --> Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
+    --> limpa_cpf_busca -> Recebe e armazena o cpf a ser consultado. 1º Parametro é o "cpf", associado ao nome dado ao atributo "name" na tag "input".
+    --> buscar_cpf -> Limpa o cpf informado, removendo pontuações, simbolos e espaços em branco.
+    --> clietes -> Recupera todos os clientes e ordena com base no nome 
+    --> total_clientes -> Total de clientes armazenados no banco de dados
     '''
+    limpa_cpf_busca = request.POST.get('cpf', '').strip()
+    buscar_cpf = re.sub(r'[^a-zA-Z0-9]', '', limpa_cpf_busca) 
+    clientes = Cliente.objects.all().order_by('nome') 
+    total_clientes = clientes.count() 
     
-    buscar_cpf = request.POST.get('cpf', '').strip()# Recebe e armazena o cpf a ser consultado, se não tiver, retornar uma string vazia. O parametro onde tem "cpf", deve ser o mesmo nome dado ao campo "name" na tag de input, onde lá consta "name=cpf"
-    clientes = Cliente.objects.all().order_by('nome') # Recupera todos os clientes e ordena com base no nome 
-    total_clientes = clientes.count() # Total de clientes cadastrados
-
     if request.method == 'POST': 
         if buscar_cpf and len(buscar_cpf) == 11: # Verifica se contém um valor e se existe 11 números (qtd. de números no cpf) 
             clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf).order_by('nome') # Filtra clientes pelo CPF

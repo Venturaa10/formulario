@@ -113,6 +113,6 @@ class ClienteForm(forms.ModelForm):
                 return cpf
             else:
                 raise forms.ValidationError('CPF Inválido!')
-
+        
         else:
             raise forms.ValidationError('O CPF deve conter exatamente 11 dígitos numéricos.')
