@@ -7,6 +7,8 @@ class Clientes(admin.ModelAdmin):
     list_display_links = ('id', 'nome')
     list_per_page = 10
     list_filter = ['cpf', 'estado']
+    search_fields = ['nome', 'cpf',]
+    ordering = ['nome',]
 
 admin.site.register(Cliente, Clientes)
 
