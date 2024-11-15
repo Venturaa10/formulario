@@ -2,13 +2,11 @@ from django.shortcuts import render, redirect
 from form_app.forms import ClienteForm, LoginForm
 from django.contrib.auth.models import User
 from form_app.models import Cliente
-from django.contrib import auth # Importa o modulo para realizar a autenticação
-from django.contrib import messages # Importa o modulo responsavél por retornar mensagens ao usuario
+from django.contrib import auth, messages # Importa o modulo para realizar a autenticação
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator # Paginação
 import re
-from form_app.serializers import ClienteSerializer
-from rest_framework import viewsets
+
 
 
 def login(request): 
@@ -150,8 +148,3 @@ def logout(request):
     auth.logout(request)
     messages.add_message(request, messages.SUCCESS,'Logout efetuado com sucesso', extra_tags='logout') 
     return redirect('login')
-
-
-class ClienteViewSet(viewsets.ModelViewSet):
-    queryset = Cliente.objects.all()
-    serializer_class = ClienteSerializer
