@@ -1,0 +1,55 @@
+  .nav {
+    background-color: wheat;
+    /* Fixa e posiciona o menu no topo à esquerda, sem que interfira ou sobreponha os containers */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: max-content;
+
+    min-width: 320px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    height: 0px;
+  }
+
+  .navbar-nav {
+    display: flex;
+  }
+
+  .nav-item {
+    max-width: max-content;
+    margin-right: 10px;
+  }
+
+  #nome_admin {
+    color: rgb(114, 73, 47);
+    font-size: large;
+    font-weight: bold;
+  }
+
+  .navbar-brand {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  /* Estiliza a palavra dos links do menu */
+  .nav-link {
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+
+  .nav-link:hover {
+    /* Muda a cor do link ao passar o mouse */
+    color: rgb(14, 0, 124);
+  }
+
+  /* Mensangens De Aviso*/
+  .messages.info {
+    font-weight: bold;
+    font-size: 17px;
+    color: gold;
+    margin: 2px 0;
+  }

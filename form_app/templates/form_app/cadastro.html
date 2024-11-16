@@ -1,134 +1,15 @@
 {% extends 'form_app/shared/base.html' %}
+{% load static %}  <!-- Carrega os arquivos estaticos da pagina -->
+
+{% block title %}Cadastro{% endblock %} <!-- Título específico para esta página -->
+
+
+{% block extra_css %} <!-- Adiciona o CSS especifico/unico da pagina -->
+<link rel="stylesheet" href="{% static 'form_app/css/cadastro.css' %}">
+{% endblock %}
+
+
 {% block content %}
-<title>Formulario</title> <!--Nome da Guia de Navegação-->
-
-<style>
-    .corpo {
-        background-color: wheat;
-        padding-top: 60px;
-    }
-
-    /* Classe definida no arquivo form.py */
-    .form-control {
-        width: 75%;
-        margin: 2px 1px;
-    }
-
-    /* Estiliza o campo de 'comentario' do tipo textarea */
-    textarea.form-control {
-        height: 100px;
-        /* Desativa a opção de mexer no tamanho do input utilizando o mouse */
-        resize: none;
-    }
-
-    /* Estiliza especificamente o campo NumberInput */
-    input[type="number"].form-control {
-        text-align: center;
-        width: 35%;
-    }
-    select.form-control {
-        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D"http%3A//www.w3.org/2000/svg" viewBox%3D"0 0 24 24" fill%3D"black"%3E%3Cpath d%3D"M7 10l5 5 5-5z"/%3E%3C/svg%3E'); 
-        background-repeat: no-repeat;
-        background-position: right 10px center; /*Alinha a direita | Afasta da borda | Alinha verticalmente*/
-        background-size: 20px; /*Tamanho da seta*/ 
-}
-    .container {
-        background-color: rgb(251, 207, 160);
-        flex-direction: column;
-        align-items: center;
-        justify-items: center;
-
-        /* Controla Largura do Container */
-        width: 70%;
-        max-width: 650px;
-
-        /* Controla Altura do Container */
-        height: auto; /* Ajusta automaticamente o tamanho do container de acordo com o conteúdo dentro*/
-        overflow: hidden; 
-
-
-        margin: 15px auto;
-        padding: 10px;
-
-        border-radius: 15px;
-        border-width: 10px;
-        border-style: solid;
-    }
-
-    #inputs {
-        color: rgb(0, 0, 0);
-
-        font-size: 20px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        margin-bottom: 4px;
-    }
-
-    .titulo {
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 25px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    #botao {
-        background-color: black;
-        color: whitesmoke;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 20px;
-
-        margin-top: 15px;
-        width: auto;
-        height: auto;
-        padding: 8px 16px;
-
-    }
-
-    .centraliza_botao {
-        text-align: center;
-    }
-
-    .messages {
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    /* Mensangens De Aviso*/
-    .messages.info {
-        font-weight: bold;
-        font-size: 17px;
-        background-color: #ffd900;
-        color: gold;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 2px 0;
-        /* Espaço entre mensagens */
-    }
-
-    /* Mensangens Bem Sucedidas */
-    .messages.success {
-        font-weight: bold;
-        font-size: 17px;
-        color: #2fac4e;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
-
-    /* Mensangens Mal Sucedidas */
-    .messages.error {
-        font-weight: bold;
-        font-size: 17px;
-        color: rgb(178, 73, 73);
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
-</style>
-
-<body class="corpo">
     <div class="container">
 <!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
         <form id="formulario" action="{% url 'cadastro' %}" method="POST">
@@ -180,7 +61,4 @@
             {% endif %}
         </form>
     </div>
-
-</body>
-
 {% endblock %}

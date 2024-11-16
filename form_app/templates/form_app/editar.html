@@ -1,99 +1,12 @@
 {% extends 'form_app/shared/base.html' %}
+{% load static %}  <!-- Carrega os arquivos estaticos da pagina -->
+{% block title %}Editar Cliente{% endblock %} <!-- Título específico para esta página -->
+
+{% block extra_css %} <!-- Adiciona o CSS especifico/unico da pagina -->
+<link rel="stylesheet" href="{% static 'form_app/css/editar.css' %}">
+{% endblock %}
+
 {% block content %}
-<title>Formulario</title> <!--Nome da Guia de Navegação-->
-
-<style>
-    .corpo {
-        background-color: wheat;
-        padding-top: 60px;
-    }
-
-    /* Classe definida no arquivo form.py */
-    .form-control {
-        width: 75%;
-        margin: 2px 1px;
-    }
-
-    /* Estiliza o campo de 'comentario' do tipo textarea */
-    textarea.form-control {
-        height: 100px;
-        /* Desativa a opção de mexer no tamanho do input utilizando o mouse */
-        resize: none;
-    }
-
-    /* Estiliza especificamente o campo NumberInput */
-    input[type="number"].form-control {
-        text-align: center;
-        width: 35%;
-    }
-
-    .container {
-        background-color: rgb(251, 207, 160);
-        flex-direction: column;
-        align-items: center;
-        justify-items: center;
-
-        /* Controla Largura do Container */
-        width: 70%;
-        max-width: 650px;
-
-        /* Controla Altura do Container */
-        height: auto; /* Ajusta automaticamente o tamanho do container de acordo com o conteúdo dentro*/
-        overflow: hidden; 
-
-
-        margin: 15px auto;
-        padding: 10px;
-
-        border-radius: 15px;
-        border-width: 10px;
-        border-style: solid;
-    }
-
-    #inputs {
-        color: rgb(0, 0, 0);
-
-        font-size: 20px;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: bold;
-        margin-bottom: 4px;
-    }
-
-    .titulo {
-        text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 25px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
-
-    #botao {
-        background-color: black;
-        color: whitesmoke;
-        border-radius: 20px;
-        font-weight: bold;
-        font-size: 20px;
-
-        margin-top: 15px;
-        width: auto;
-        height: auto;
-        padding: 8px 16px;
-    }
-
-    .centraliza_botao {
-        text-align: center;
-    }
-
-    .mensagens {
-        font-weight: bold;
-        font-size: 20px;
-        text-align: center;
-        margin-top: 10px;
-    }
-    
-</style>
-
-<body class="corpo">
     <div class="container">
         <form id="formulario" action="{% url 'editar' cliente_id %}" method="POST">
             <!-- Chave de segurança -->
@@ -129,5 +42,4 @@
             </div>
         </form>
     </div>
-</body>
 {% endblock %}
