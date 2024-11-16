@@ -1,4 +1,4 @@
-{% extends 'shared/base.html' %}
+{% extends 'form_app/shared/base.html' %}
 {% block content %}
 <title>Formulario</title> <!--Nome da Guia de Navegação-->
 
@@ -26,12 +26,7 @@
         text-align: center;
         width: 35%;
     }
-    select.form-control {
-        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns%3D"http%3A//www.w3.org/2000/svg" viewBox%3D"0 0 24 24" fill%3D"black"%3E%3Cpath d%3D"M7 10l5 5 5-5z"/%3E%3C/svg%3E'); 
-        background-repeat: no-repeat;
-        background-position: right 10px center; /*Alinha a direita | Afasta da borda | Alinha verticalmente*/
-        background-size: 20px; /*Tamanho da seta*/ 
-}
+
     .container {
         background-color: rgb(251, 207, 160);
         flex-direction: column;
@@ -83,66 +78,29 @@
         width: auto;
         height: auto;
         padding: 8px 16px;
-
     }
 
     .centraliza_botao {
         text-align: center;
     }
 
-    .messages {
+    .mensagens {
+        font-weight: bold;
+        font-size: 20px;
         text-align: center;
         margin-top: 10px;
     }
-
-    /* Mensangens De Aviso*/
-    .messages.info {
-        font-weight: bold;
-        font-size: 17px;
-        background-color: #ffd900;
-        color: gold;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 2px 0;
-        /* Espaço entre mensagens */
-    }
-
-    /* Mensangens Bem Sucedidas */
-    .messages.success {
-        font-weight: bold;
-        font-size: 17px;
-        color: #2fac4e;
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
-
-    /* Mensangens Mal Sucedidas */
-    .messages.error {
-        font-weight: bold;
-        font-size: 17px;
-        color: rgb(178, 73, 73);
-        padding: 10px;
-        border-radius: 5px;
-        margin: 5px 0;
-    }
+    
 </style>
 
 <body class="corpo">
     <div class="container">
-<!-- As informações preenchidas nesse '<form>' serão enviadas a url 'cadastro' e que está configurada para a views 'cadastro'-->
-        <form id="formulario" action="{% url 'cadastro' %}" method="POST">
+        <form id="formulario" action="{% url 'editar' cliente_id %}" method="POST">
             <!-- Chave de segurança -->
             {% csrf_token %}
             <div class="ficha_cadastro">
-                {% if not user.is_authenticated %}
-                <!-- Titulo como Cliente -->
-                <h3 class="titulo">Cadastro</h3>
-                {% else %}
-                <!-- Titulo como administrador -->
                 <h3 class="titulo">Dados do Cliente</h3>
-                {% endif %}
-                {% for field in form.visible_fields %}
+                {% for field in dados.visible_fields %}
                 {% if forloop.counter0|divisibleby:6 %}
                 <div class="row">
                     {% endif %}
@@ -165,22 +123,11 @@
             </div>
             {% endif %}
             {% endfor %}
-            <!-- Envia os dados do formulário para a URL especificada na tag action do <form> (nesse caso, a URL associada à view 'cadastro') -->
+            <!-- Salva as alterações dos dados do cliente -->
             <div class="centraliza_botao">
-                <button id="botao" type="submit">CADASTRAR</button>
+                <button id="botao" type="submit">Salvar Alterações</button>
             </div>
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                {% if 'cadastro' in message.extra_tags %}
-                <span class="messages {{ message.tags }}">{{ message }}</span>
-                {% endif %}
-                {% endfor %}
-            </div>
-            {% endif %}
         </form>
     </div>
-
 </body>
-
 {% endblock %}

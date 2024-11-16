@@ -1,4 +1,4 @@
-'''Arquivo responsavel pelas validações dos campos do serializers '''
+'''Arquivo responsavel pelas validações dos campos do serializers / API'''
 import re
 from validate_docbr import CPF
 

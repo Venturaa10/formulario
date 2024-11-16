@@ -39,7 +39,7 @@ def login(request):
         else:
            pass
 
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'form_app/login.html', {'form': form})
 
 
 def cadastro(request):
@@ -76,7 +76,7 @@ def cadastro(request):
     else:
         form = ClienteForm()
 
-    return render(request,'cadastro.html', {'form': form})
+    return render(request,'form_app/cadastro.html', {'form': form})
 
 
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
@@ -113,7 +113,7 @@ def exibir(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'exibir.html', {'page_obj': page_obj, 'query': buscar_cpf, 'total_clientes': total_clientes})
+    return render(request, 'form_app/exibir.html', {'page_obj': page_obj, 'query': buscar_cpf, 'total_clientes': total_clientes})
 
 
 @login_required(login_url='login')
@@ -130,7 +130,7 @@ def editar(request, cliente_id):
             messages.add_message(request, messages.INFO, f'Dados de "{nome_form}" atualizados!', extra_tags='editar')
             return redirect('exibir')
 
-    return render(request, 'editar.html', {'dados':dados, 'cliente_id': cliente_id})
+    return render(request, 'form_app/editar.html', {'dados':dados, 'cliente_id': cliente_id})
 
 
 @login_required(login_url='login')
