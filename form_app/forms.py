@@ -2,6 +2,7 @@
 from django import forms 
 from form_app.models import Cliente
 from validate_docbr import CPF, CNPJ
+import re
 
 
 class LoginForm(forms.Form):
@@ -70,27 +71,24 @@ class ClienteForm(forms.ModelForm):
     
         nome = self.cleaned_data.get('nome')
         if not all(c.isalpha() or c.isspace() for c in nome):
-            raise forms.ValidationError('O campo "Nome" deve incluir apenas letras e espaços!')
+            raise forms.ValidationError('O campo "Nome" deve incluir apenas letras!')
         return nome
         
     def clean_sobrenome(self):
         sobrenome = self.cleaned_data.get('sobrenome')
         if not all(c.isalpha() or c.isspace() for c in sobrenome):
-            raise forms.ValidationError('O campo "Sobrenome" deve incluir apenas letras e espaços!')
+            raise forms.ValidationError('O campo "Sobrenome" deve incluir apenas letras!')
         return sobrenome
     
     def clean_celular(self):
-        celular = self.cleaned_data.get('celular')
-
-        for digito in celular:
-            # Para cada digito do número, se esse não for um número inteiro, retorna a mensagem de erro
-            if not digito.isdigit():
-                raise forms.ValidationError('Número de celular inválido, informe apenas os números sem espaços!')
-            
-        if len(celular) < 11 or len(celular) > 12 :
-            raise forms.ValidationError('Número de celular inválido, informe apenas os números sem espaços!')
-
-        return celular                
+        celular = self.cleaned_data.get('celular').replace(' ', '')
+        regex_celular =  r'^[0-9]{2,3}[0-9]{5}[0-9]{4}$'
+        resposta_celular = re.findall(regex_celular,celular) # Busca modelo na variavel celular.
+        if resposta_celular:
+            return celular      
+        else:
+            raise forms.ValidationError('Número de celular inválido!')  
+        
                     
     def clean_estado(self):
         estado = self.cleaned_data.get('estado')
@@ -116,3 +114,4 @@ class ClienteForm(forms.ModelForm):
         
         else:
             raise forms.ValidationError('O CPF deve conter exatamente 11 dígitos numéricos.')
+
