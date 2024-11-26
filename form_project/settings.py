@@ -23,9 +23,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'form_app',
-    'rest_framework',
-    'django_filters',
+    'form_app', # App do projeto.
+    'rest_framework', # Django Rest Framework.
+    'django_filters', # Filtro Django Rest Framework.
+    'drf_yasg', # Documentação da API.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,7 +69,7 @@ WSGI_APPLICATION = 'form_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-
+# Conexão com o banco da dados MySQL.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

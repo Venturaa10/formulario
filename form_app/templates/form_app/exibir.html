@@ -12,16 +12,8 @@
         <h2>Clientes Cadastrados</h2>
     </div>
     <div class="buscar">
-        <nav class="barra_pesquisa">
-            <div class="container-fluid">
-                <form action="{% url 'exibir' %}" method="POST" class="d-flex" role="search">
-                                        <!-- Chave de segurança -->
-                                        {% csrf_token %}
-                    <input class="form-control me-2" type="search" name="cpf" placeholder="Buscar por CPF"aria-label="Search">
-                    <button class="botao_pesquisa" type="submit">Buscar</button>
-                </form>
-            </div>
-        </nav>
+        {% include 'form_app/partials/_filtro.html' %} <!-- Inclui o menu (navbar)-->
+
         <!-- Exibe as mensagens e estiliza de acordo com a sua extra_tags correspondente em cada views-->
         {% if messages %} <!-- Mensagem da função 'buscar' em views -->
         <div class="div_mensagem">

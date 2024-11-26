@@ -97,7 +97,7 @@ class Cliente(models.Model):
 
     @property
     def cpf_formatado(self):
-        ''' Formata o CPF para exibição '''
+        ''' Formatar o CPF para exibição '''
         return CPF().mask(self.cpf)   
         
 

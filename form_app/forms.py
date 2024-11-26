@@ -39,9 +39,9 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente # Este formulario está associada a esse Model
         ''' widgets
-        -> Define como cada campo será renderizado / exibido no HTML
-        -> "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
-        -> Parametro 'disabled': Faz com que não seja possivel alterar o status de "ativo" diretamente, ou seja, a alteração só pode ser feito no banco de dados
+        - Define como cada campo será renderizado / exibido no HTML
+        - "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
+        - Parametro 'disabled': Faz com que não seja possivel alterar o status de "ativo" diretamente, ou seja, a alteração só pode ser feito no banco de dados
         '''
         exclude = ['data_criacao','status']
 
@@ -64,10 +64,15 @@ class ClienteForm(forms.ModelForm):
     # Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
 
     def clean_nome(self):
-        # A função "all" -> Retorna "True" se todos os elementos do iterável fornecido forem "True".
-        # c.isalpha() -> Retorna "True" se "c" for uma letra, ou seja, Números e/ou caracteres especiais é "False".
-        # c.isspace() -> Retorna "True" se "c" for um espaço, permitindo nome compostos como: "Lucas Miguel"
-        # Importante! Essa lógica deve ser implementada tanto em "forms" quanto em "models" para funcionar corretamente na interface HTML.
+        ''' Validar nome informado no formulario.
+        - A função "all" -> Retorna "True" se todos os elementos do iterável fornecido forem "True".
+        
+        - c.isalpha() -> Retorna "True" se "c" for uma letra, ou seja, Números e/ou caracteres especiais é "False".
+        
+        - c.isspace() -> Retorna "True" se "c" for um espaço, permitindo nome compostos como: "Lucas Miguel"
+        
+        - Importante! Essa lógica deve ser implementada tanto em "forms" quanto em "models" para funcionar corretamente na interface HTML.
+        '''
     
         nome = self.cleaned_data.get('nome')
         if not all(c.isalpha() or c.isspace() for c in nome):
@@ -99,9 +104,13 @@ class ClienteForm(forms.ModelForm):
         return estado
             
     def clean_cpf(self):
-        '''
-        Valida o CPF fornecido de acordo com o sistema de documentação brasileiro.
-        Garante que o CPF tenha 11 dígitos e seja válido.
+        ''' Validar CPF do formulario.
+        Variavei(s)}:
+        - cpf: Pega cpf informado no formulario.
+
+        Validação:
+        - Verifica se "cpf" possuí 11 digitos.
+
         '''
         cpf = self.cleaned_data.get('cpf')
 

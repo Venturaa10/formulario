@@ -82,12 +82,12 @@ def cadastro(request):
 @login_required(login_url='login') # Linha responsavel por impedir que usuario acesse o sistema sem estar logado
 def exibir(request):
     '''
-    --> Exibe e o número de clientes cadastrados no sistema
-    --> Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
-    --> limpa_cpf_busca -> Recebe e armazena o cpf a ser consultado. 1º Parametro é o "cpf", associado ao nome dado ao atributo "name" na tag "input".
-    --> buscar_cpf -> Limpa o cpf informado, removendo pontuações, simbolos e espaços em branco.
-    --> clietes -> Recupera todos os clientes e ordena com base no nome 
-    --> total_clientes -> Total de clientes armazenados no banco de dados
+    - Exibe e o número de clientes cadastrados no sistema
+    - Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
+    - limpa_cpf_busca -> Recebe e armazena o cpf a ser consultado. 1º Parametro é o "cpf", associado ao nome dado ao atributo "name" na tag "input".
+    - buscar_cpf -> Limpa o cpf informado, removendo pontuações, simbolos e espaços em branco.
+    - clietes -> Recupera todos os clientes e ordena com base no nome 
+    - total_clientes -> Total de clientes armazenados no banco de dados
     '''
     limpa_cpf_busca = request.POST.get('cpf', '').strip()
     buscar_cpf = re.sub(r'[^a-zA-Z0-9]', '', limpa_cpf_busca) 
