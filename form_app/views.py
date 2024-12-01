@@ -84,19 +84,17 @@ def exibir(request):
     '''
     - Exibe e o número de clientes cadastrados no sistema
     - Função responsavel por realizar a exibição dos clientes, paginação e a busca do cliente pelo CPF
-    - limpa_cpf_busca -> Recebe e armazena o cpf a ser consultado. 1º Parametro é o "cpf", associado ao nome dado ao atributo "name" na tag "input".
-    - buscar_cpf -> Limpa o cpf informado, removendo pontuações, simbolos e espaços em branco.
-    - clietes -> Recupera todos os clientes e ordena com base no nome 
+    - cpf_busca -> Recebe e armazena o cpf a ser consultado. 1º Parametro é o "cpf", associado ao nome dado ao atributo "name" na tag "input".
+    - clientes -> Recupera todos os clientes e ordena com base no nome 
     - total_clientes -> Total de clientes armazenados no banco de dados
     '''
-    limpa_cpf_busca = request.POST.get('cpf', '').strip()
-    buscar_cpf = re.sub(r'[^a-zA-Z0-9]', '', limpa_cpf_busca) 
+    cpf_busca = request.POST.get('cpf', '').strip()
     clientes = Cliente.objects.all().order_by('nome') 
     total_clientes = clientes.count() 
 
     if request.method == 'POST': 
-        if buscar_cpf: 
-            clientes = Cliente.objects.filter(cpf__icontains=buscar_cpf).order_by('nome') # Filtra clientes pelo CPF
+        if cpf_busca: 
+            clientes = Cliente.objects.filter(cpf__icontains=cpf_busca).order_by('nome') # Filtra clientes pelo CPF
             if clientes.exists():
                 messages.add_message(request, messages.SUCCESS, 'Cliente localizado no sistema!', extra_tags='buscar')
             
@@ -113,7 +111,7 @@ def exibir(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, 'form_app/exibir.html', {'page_obj': page_obj, 'query': buscar_cpf, 'total_clientes': total_clientes})
+    return render(request, 'form_app/exibir.html', {'page_obj': page_obj, 'query': cpf_busca, 'total_clientes': total_clientes})
 
 
 @login_required(login_url='login')

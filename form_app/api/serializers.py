@@ -8,7 +8,7 @@ class ClienteSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def validate(self, dados):
-        '''Método responsavel por realizar as validações dos campos do estudante'''
+        '''Método responsavel por realizar as validações dos campos do Cliente, e retornar uma mensagem em caso de falha na validação.'''
         if nome_invalido(dados['nome']):
             raise serializers.ValidationError({'nome':'O nome só deve conter letras!'})
          

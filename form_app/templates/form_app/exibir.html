@@ -12,20 +12,13 @@
         <h2>Clientes Cadastrados</h2>
     </div>
     <div class="buscar">
-        {% include 'form_app/partials/_filtro.html' %} <!-- Inclui o menu (navbar)-->
+        {% include 'form_app/partials/_filtro.html' %} <!-- Botão e o campo para buscar por CPF. -->
 
         <!-- Exibe as mensagens e estiliza de acordo com a sua extra_tags correspondente em cada views-->
-        {% if messages %} <!-- Mensagem da função 'buscar' em views -->
+        {% if messages %} 
         <div class="div_mensagem">
             {% for message in messages %}
-            <!-- Ao colocar message.tags na linha abaixo, a mensagem relacionada a 'buscar' não fica alinhada ao lado do botão de input da maneira correta, verificar! -->
-            {% if 'buscar' in message.extra_tags %}
             <span class="messages {{ message.tags }}">{{ message }}</span>
-            {% elif 'editar' in message.extra_tags %}
-            <span class="messages {{ message.tags }}">{{ message }}</span>
-            {% elif 'excluir' in message.extra_tags %}
-            <span class="messages {{ message.tags }}">{{ message }}</span>
-            {% endif %}
             {% endfor %}
         </div>
         {% endif %}

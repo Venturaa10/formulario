@@ -65,6 +65,7 @@ class ClienteForm(forms.ModelForm):
 
     def clean_nome(self):
         ''' Validar nome informado no formulario.
+        
         - A função "all" -> Retorna "True" se todos os elementos do iterável fornecido forem "True".
         
         - c.isalpha() -> Retorna "True" se "c" for uma letra, ou seja, Números e/ou caracteres especiais é "False".

@@ -9,6 +9,16 @@ from validate_docbr import CPF, CNPJ
 
 
 class Cliente(models.Model):
+    '''
+    Models de Cliente
+    Atributos (parâmetro) dos campos:
+
+    - unique=True -> Os valores desse atributo devem ser únicos no banco de dados, ou seja, não permite outro registro com o mesmo valor.
+    - blank=True -> Torna o preenchimento do campo opcional.
+    - null=True -> O campo é preenchido com "null" se não for preenchido pelo usuario.
+    - decimal_places -> Número de casas decimais a serem exibidas. Se decimal_places=True, vai exibir apenas a casa decimal e não uma quantidade especifica de casas decimais.
+    - default='valor' -> Valor padrão caso não seja informado nenhum outro valor pelo usuario.
+    '''
     OPCAO_SEXO = [
         ('I', 'Não Informado'),
         ('M', 'Masculino'), 
@@ -58,7 +68,7 @@ class Cliente(models.Model):
     celular = models.CharField(max_length=12,unique=True,null=False, blank=False, help_text='11900000000', validators=[RegexValidator(r'^[0-9]{2,3}[0-9]{5}[0-9]{4}$', 'O campo celular precisa seguir um modelo parecido com: 11900000000 (DDD + número sem espaços ou caracteres especiais).')])
     comentario = models.TextField(max_length=250, null=True, blank=True, help_text='Uma sugestão aqui :)')
     data_criacao = models.DateTimeField(default=datetime.now) # Atributo que exibe a data e a hora de criação do cliente
-    status = models.BooleanField(default=True) # Atributo responsavel por indicar se o cliente está ativo ou não, o "default" indica que todo cliente cadastrado está com o status de "ativo".
+    status = models.BooleanField(default=True)
 
 
     def clean(self):
