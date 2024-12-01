@@ -32,7 +32,7 @@ def login(request):
                 auth.login(request, usuario)
                 messages.add_message(request, messages.INFO,f'{nome} logado com sucesso!', extra_tags='info_login') 
                 return redirect('exibir')
-            else:
+            else: 
                 # Se a autenticação falhar, exibe uma mensagem de erro e redireciona de volta para a página de login
                 messages.add_message(request, messages.ERROR, 'Erro ao efetuar login!', extra_tags='error_login')
                 return redirect('login')
@@ -51,20 +51,6 @@ def cadastro(request):
         if form.is_valid():
             # O "cleaned_data" deve ser feita depois de verificar se o form é válido, ou seja, dentro de "form.is_valid()" 
             nome_form = form.cleaned_data['nome']
-            email = form.cleaned_data['email']
-            celular = form.cleaned_data['celular']
-
-            # Verifica se o número de celular e/ou email fornecido já exise no banco de dados, e retorna uma mensagem em caso de TRUE, evitando informações que devem ser exclusivas de cada cliente, sejam duplicadas
-            # A verificação é feita através de filtro (atributo_em_models=variavel_que_armazena_valor_do_form)
-
-            if Cliente.objects.filter(email=email).exists():
-                # Retorna mensagem de erro em caso de email já cadastrado anteriormente
-                messages.add_message(request, messages.INFO,'O EMAIL fornecido já consta em nosso sistema!', extra_tags='cadastro')
-                return render(request,'cadastro.html', {'form': form})
-
-            elif Cliente.objects.filter(celular=celular).exists():
-                messages.add_message(request, messages.INFO,'O NÚMERO DE CELULAR fornecido já consta em nosso sistema', extra_tags='cadastro')
-                return render(request,'cadastro.html', {'form': form})
 
             form.save()
             messages.add_message(request, messages.SUCCESS,f'Cadastro de {nome_form} realizado com sucesso!', extra_tags='cadastro')

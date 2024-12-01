@@ -35,14 +35,22 @@ class LoginForm(forms.Form):
     
 
 class ClienteForm(forms.ModelForm):
-    '''Este formulario é baseado no modelo "Cliente" '''
+    '''Formulario de cadastro de Clientes.
+    Meta:
+        variavie(s):
+        - Meta: Modelo referenciado.
+        - Exclude: Exclui os campos do modelo que não serão exibidos no formulario.
+        - labels: Altera o nome dos campos do modelo, para uma outra exibição no formulario.
+        - widgets: Dicionario com os campos a serão exibidos no HTML. Juntamente com o tipo de dado do campo, e seus atributos.
+    
+    Métodos:
+        - init: Método inicializador.
+        - _clean_nomeCampo: Validação do campo no formulario.
+        
+    '''
     class Meta:
         model = Cliente # Este formulario está associada a esse Model
-        ''' widgets
-        - Define como cada campo será renderizado / exibido no HTML
-        - "forms.atributo" são widgets do Django que controlam a aparência e comportamento dos campos.
-        - Parametro 'disabled': Faz com que não seja possivel alterar o status de "ativo" diretamente, ou seja, a alteração só pode ser feito no banco de dados
-        '''
+
         exclude = ['data_criacao','status']
 
         labels = {
@@ -61,7 +69,17 @@ class ClienteForm(forms.ModelForm):
             'comentario': forms.Textarea(attrs={'placeholder':'Sugestões', 'class':'form-control'}), 
         }
 
-    # Validações das informações recebidas no template do formulario feita através do metodo "clean_nomeAtributo"
+
+    def __init__(self, *args, **kwargs):
+        '''
+        Argumentos:
+            - *args e **kwargs: Permite que nº argumentos sejam passados.
+        Atributo:
+            - Pega a instancia do objeto, se existir.
+        '''
+        self.instance = kwargs.get('instance')
+        super().__init__(*args, **kwargs)
+
 
     def clean_nome(self):
         ''' Validar nome informado no formulario.
@@ -79,6 +97,7 @@ class ClienteForm(forms.ModelForm):
         if not all(c.isalpha() or c.isspace() for c in nome):
             raise forms.ValidationError('O campo "Nome" deve incluir apenas letras!')
         return nome
+    
         
     def clean_sobrenome(self):
         sobrenome = self.cleaned_data.get('sobrenome')
@@ -86,14 +105,19 @@ class ClienteForm(forms.ModelForm):
             raise forms.ValidationError('O campo "Sobrenome" deve incluir apenas letras!')
         return sobrenome
     
+    
     def clean_celular(self):
         celular = self.cleaned_data.get('celular').replace(' ', '')
         regex_celular =  r'^[0-9]{2,3}[0-9]{5}[0-9]{4}$'
         resposta_celular = re.findall(regex_celular,celular) # Busca modelo na variavel celular.
-        if resposta_celular:
-            return celular      
-        else:
+
+        if Cliente.objects.filter(celular=celular).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError('O celular fornecido já está cadastrado para outro cliente.')  
+
+        if not resposta_celular:
             raise forms.ValidationError('Número de celular inválido!')  
+
+        return celular      
         
                     
     def clean_estado(self):
@@ -104,24 +128,35 @@ class ClienteForm(forms.ModelForm):
                 
         return estado
             
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        # Verifica se já existe outro cliente com o mesmo e-mail
+        if Cliente.objects.filter(email=email).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError("O E-mail fornecido já está cadastrado para outro cliente.")
+        return email
+    
+
     def clean_cpf(self):
         ''' Validar CPF do formulario.
-        Variavei(s)}:
+        Variavei(s):
         - cpf: Pega cpf informado no formulario.
 
         Validação:
         - Verifica se "cpf" possuí 11 digitos.
-
         '''
         cpf = self.cleaned_data.get('cpf')
+        validador = CPF()
 
-        if len(cpf) == 11:
-            validador = CPF()
-            if validador.validate(cpf):
-                return cpf
-            else:
-                raise forms.ValidationError('CPF Inválido!')
-        
-        else:
+        if Cliente.objects.filter(cpf=cpf).exclude(id=self.instance.id).exists():
+            raise forms.ValidationError(f"O CPF fornecido já está cadastrado para outro cliente.")
+
+        if len(cpf) != 11:
             raise forms.ValidationError('O CPF deve conter exatamente 11 dígitos numéricos.')
+
+        if not validador.validate(cpf):
+                raise forms.ValidationError('O CPF é inválido!')
+
+        return cpf
+    
 
